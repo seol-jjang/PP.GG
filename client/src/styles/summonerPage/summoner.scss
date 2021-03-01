@@ -1,15 +1,53 @@
-.section {
+@import "./summonerRank.scss";
+
+.article {
   margin-top: 80px;
-  padding: 0 20px;
-  .user-container {
-    display: flex;
-    align-items: center;
-    img {
-      width: 100px;
-      margin-right: 20px;
-    }
-    h2 {
-      font-weight: 800;
-    }
+  padding: 40px 30px;
+  border-radius: 30px;
+  background-color: #fff;
+}
+.summoner-info {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: stretch;
+}
+.summoner__level {
+  position: relative;
+  img {
+    width: 90px;
+    border-radius: 30px;
+    border-bottom-right-radius: 10px;
+  }
+  span {
+    position: absolute;
+    bottom: 0;
+    right: -5px;
+    padding: 3px 7px;
+    border-radius: 10px;
+    border-top-left-radius: 3px;
+    background-color: white;
+    box-shadow: 3px 4px 10px #d8d8d8;
+    font-size: 14px;
+    color: #828282;
+  }
+}
+.summoner__name {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 20px;
+  h2 {
+    font-weight: 800;
+  }
+  .refresh-btn {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    width: 100px;
+    padding: 7px 0;
+    border-radius: 15px;
+    background-color: #1e53bf;
+    font-size: 14px;
+    color: white;
   }
 }

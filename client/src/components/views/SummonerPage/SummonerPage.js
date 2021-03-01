@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
-import "../../styles/summonerPage/summoner.scss";
+import "../../../styles/summonerPage/summoner.scss";
+import SummonerRank from "./SummonerRank";
 
 const summonerData = React.createContext(null);
 
@@ -29,16 +30,25 @@ function SummonerPage() {
     if (summoner !== null) {
       return (
         <summonerData.Provider value={summoner}>
-          <section className="section">
+          <article className="article">
             {console.log(summoner)}
-            <div className="user-container">
-              <img
-                src={`http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/${summoner.profileIconId}.png`}
-                alt="profileIcon"
-              />
-              <h2>{summoner.name}</h2>
-            </div>
-          </section>
+            <header className="summoner-info">
+              <div className="summoner__level">
+                <img
+                  src={`http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/${summoner.profileIconId}.png`}
+                  alt="profileIcon"
+                />
+                <span>{summoner.summonerLevel}</span>
+              </div>
+              <div className="summoner__name">
+                <h2>{summoner.name}</h2>
+                <button className="refresh-btn">전적 갱신</button>
+              </div>
+            </header>
+            <main className="main">
+              <SummonerRank summonerId={summoner.id} />
+            </main>
+          </article>
         </summonerData.Provider>
       );
     } else {

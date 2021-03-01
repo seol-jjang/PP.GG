@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import MainPage from "./components/views/MainPage";
-import SummonerPage from "./components/views/SummonerPage";
+import MainPage from "./components/views/MainPage/MainPage";
+import SummonerPage from "./components/views/SummonerPage/SummonerPage";
 import "./styles/styles.scss";
 
 function App() {
   return (
-    <div className="main">
+    <div className="contents">
       <Router>
         <Switch>
           <Route exact path="/" component={MainPage} />
