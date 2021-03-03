@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import RankEmblem from "../../utils/RankEmblem";
 
 function SummonerRank({ summonerId }) {
+  const QUEUE_TYPE = "RANKED_SOLO_5x5";
   const [textcolor, setTextColor] = useState("#2b2b2b");
   const [isCancelled, setIsCancelled] = useState(false);
   const [rankData, setRankData] = useState(null);
@@ -17,13 +18,17 @@ function SummonerRank({ summonerId }) {
           setRankData(null);
         } else {
           const rank = response.data.rankData.reduce((acc, current) => {
-            if (current.queueType === "RANKED_SOLO_5x5") {
+            if (current.queueType === QUEUE_TYPE) {
               return current;
             } else {
               return acc;
             }
           });
-          setRankData(rank);
+          if (rank.queueType === QUEUE_TYPE) {
+            setRankData(rank);
+          } else {
+            setRankData(null);
+          }
         }
         setIsCancelled(true);
       });
@@ -37,14 +42,13 @@ function SummonerRank({ summonerId }) {
     if (rankData !== null) {
       return (
         <div className="summoner__rank">
-          {console.log(rankData)}
-          <RankEmblem tier={rankData.tier} setTextColor={setTextColor} />
+          <RankEmblem tier={rankData.tier} />
           <div className="rank-info">
             <div>
               <span>솔로랭크</span>
-              <span className="league-point">{rankData.leaguePoints}LP</span>
             </div>
             <div>
+              <span className="league-point">{rankData.leaguePoints}LP</span>
               <span>{rankData.wins}승</span>
               <span>{rankData.losses}패</span>
             </div>
@@ -57,7 +61,7 @@ function SummonerRank({ summonerId }) {
     } else {
       return (
         <div className="summoner__rank">
-          <RankEmblem tier="unrank" setTextColor={setTextColor} />
+          <RankEmblem tier="unrank" />
           <div className="rank-info">
             <span>솔로랭크</span>
             <p className="tier-title unrank">Unrank</p>
@@ -66,7 +70,15 @@ function SummonerRank({ summonerId }) {
       );
     }
   } else {
-    return <section></section>;
+    return (
+      <div className="summoner__rank">
+        <RankEmblem tier="unrank" />
+        <div className="rank-info">
+          <span>솔로랭크</span>
+          <p className="tier-title unrank">Unrank</p>
+        </div>
+      </div>
+    );
   }
 }
 

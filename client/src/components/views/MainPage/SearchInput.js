@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import useInput from "../../customHook/useInput";
+import useInput from "../../../customHook/useInput";
 
 const SearchInput = () => {
   const [input, setInput] = useInput({

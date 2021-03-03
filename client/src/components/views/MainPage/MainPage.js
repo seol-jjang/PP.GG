@@ -1,5 +1,5 @@
 import React from "react";
-import SearchInput from "../../utils/SearchInput";
+import SearchInput from "./SearchInput";
 
 const MainPage = () => {
   return (
