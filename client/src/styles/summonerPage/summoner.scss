@@ -54,5 +54,13 @@
 }
 
 .detail-contents {
-  display: flex;
+  display: grid;
+  grid-template-columns: 0.8fr 2fr;
+  gap: 30px;
+  // .info-contents {
+  //   margin-right: 30px;
+  // }
+  // .match-contents {
+  //   flex-grow: 1;
+  // }
 }

@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { asyncUtil } from "../../utils/asyncUtil";
-import { getSummonerInfo, getSummonerRank } from "../../utils/api";
+import {
+  getSummonerInfo,
+  getSummonerRank,
+  getMatchData
+} from "../../utils/api";
 import RankInfo from "./RankInfo";
 import "../../../styles/summonerPage/summoner.scss";
+import MatchList from "./matchList/MatchList";
 
 function SummonerPage() {
   const QUEUE_TYPE = "RANKED_SOLO_5x5";
+  const [count, setCount] = useState("10");
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [summonerRank, setSummonerRank] = useState(null);
+  const [matchData, setMatchData] = useState(null);
   const [isCancelled, setIsCancelled] = useState(false);
   const param = useParams();
 
@@ -20,25 +27,27 @@ function SummonerPage() {
         setSummonerInfo(response.data.user);
         if (response.data) {
           const { accountId, id } = response.data.user;
-          Promise.all([await asyncUtil(getSummonerRank(id), 1000)]).then(
-            ([summonerRankData]) => {
-              if (summonerRankData.data.rankData.length > 0) {
-                const { rankData } = summonerRankData.data;
-                const rank = Object.values(rankData).find(
-                  (rankType) => rankType.queueType === QUEUE_TYPE
-                );
-                setSummonerRank(rank);
-              }
-              setIsCancelled(true);
+          Promise.all([
+            await asyncUtil(getSummonerRank(id), 1000),
+            await asyncUtil(getMatchData(accountId, count), 1000)
+          ]).then(([summonerRankData, matchDetailData]) => {
+            setMatchData(matchDetailData.data.matchData);
+            if (summonerRankData.data.rankData.length > 0) {
+              const { rankData } = summonerRankData.data;
+              const rank = Object.values(rankData).find(
+                (rankType) => rankType.queueType === QUEUE_TYPE
+              );
+              setSummonerRank(rank);
             }
-          );
+            setIsCancelled(true);
+          });
         }
       });
     }
     return () => {
       setIsCancelled(true);
     };
-  }, [isCancelled, param.nickname]);
+  }, [count, isCancelled, param.nickname]);
   if (!isCancelled) {
     return <section></section>;
   }
@@ -59,10 +68,12 @@ function SummonerPage() {
           </div>
         </header>
         <div className="detail-contents">
-          <section>
+          <section className="info-contents">
             <RankInfo summonerRank={summonerRank} />
           </section>
-          <section></section>
+          <section className="match-contents">
+            <MatchList matchData={matchData} />
+          </section>
         </div>
       </article>
     );
