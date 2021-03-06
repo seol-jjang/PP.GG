@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getRankEmblem } from "../../utils/gameUtil";
 
-function RankInfo({ summonerRank }) {
+const RankInfo = ({ summonerRank }) => {
   const [emblemData, setEmblemData] = useState(null);
   useEffect(() => {
     if (summonerRank) setEmblemData(getRankEmblem(summonerRank.tier));
@@ -46,6 +46,6 @@ function RankInfo({ summonerRank }) {
       </div>
     );
   }
-}
+};
 
 export default RankInfo;

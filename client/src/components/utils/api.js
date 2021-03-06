@@ -27,3 +27,15 @@ export const getChampionData = () => {
     "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/champion.json"
   );
 };
+
+export const getSummonerSpell = () => {
+  return axios.get(
+    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/summoner.json"
+  );
+};
+
+export const getItem = () => {
+  return axios.get(
+    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/item.json"
+  );
+};

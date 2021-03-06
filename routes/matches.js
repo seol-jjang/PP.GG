@@ -55,7 +55,7 @@ router.post("/matchData", (req, res) => {
   };
   axios
     .get(
-      `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${req.body.accountId}?endIndex=${req.body.count}&api_key=${process.env.DEVELOPMENT_KEY}`
+      `https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${req.body.accountId}?endIndex=${req.body.count.max}&beginIndex=${req.body.count.min}&api_key=${process.env.DEVELOPMENT_KEY}`
     )
     .then(async (response) => {
       const { matches } = response.data;

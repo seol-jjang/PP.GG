@@ -10,13 +10,16 @@ import RankInfo from "./RankInfo";
 import "../../../styles/summonerPage/summoner.scss";
 import MatchList from "./matchList/MatchList";
 
-function SummonerPage() {
+const SummonerPage = () => {
   const QUEUE_TYPE = "RANKED_SOLO_5x5";
-  const [count, setCount] = useState("10");
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [summonerRank, setSummonerRank] = useState(null);
   const [matchData, setMatchData] = useState(null);
   const [isCancelled, setIsCancelled] = useState(false);
+  const [count, setCount] = useState({
+    min: 0,
+    max: 10
+  });
   const param = useParams();
 
   useEffect(() => {
@@ -27,6 +30,10 @@ function SummonerPage() {
         setSummonerInfo(response.data.user);
         if (response.data) {
           const { accountId, id } = response.data.user;
+          const count = {
+            min: 0,
+            max: 10
+          };
           Promise.all([
             await asyncUtil(getSummonerRank(id), 1000),
             await asyncUtil(getMatchData(accountId, count), 1000)
@@ -47,7 +54,25 @@ function SummonerPage() {
     return () => {
       setIsCancelled(true);
     };
-  }, [count, isCancelled, param.nickname]);
+  }, [isCancelled, param.nickname]);
+
+  useEffect(() => {
+    if (summonerInfo) {
+      Promise.all([
+        asyncUtil(getMatchData(summonerInfo.accountId, count), 1000)
+      ]).then(([matchDetailData]) => {
+        setMatchData((data) => data.concat(matchDetailData.data.matchData));
+      });
+    }
+  }, [count]);
+
+  const onMoreDataHandle = () => {
+    setCount({
+      min: count.min + 10,
+      max: count.max + 10
+    });
+  };
+
   if (!isCancelled) {
     return <section></section>;
   }
@@ -72,7 +97,10 @@ function SummonerPage() {
             <RankInfo summonerRank={summonerRank} />
           </section>
           <section className="match-contents">
-            <MatchList matchData={matchData} />
+            <MatchList
+              matchData={matchData}
+              onMoreDataHandle={onMoreDataHandle}
+            />
           </section>
         </div>
       </article>
@@ -80,6 +108,6 @@ function SummonerPage() {
   } else {
     return <section>일치하는 소환사가 없습니다...</section>;
   }
-}
+};
 
 export default SummonerPage;

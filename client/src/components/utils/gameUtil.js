@@ -23,37 +23,6 @@ export const getQueueType = (queueId) => {
   }
 };
 
-export const getGameDuration = (gameDuration) => {
-  const second = Math.floor(gameDuration % 60);
-  const minute = Math.floor(gameDuration / 60);
-  return `${minute}분 ${second}초`;
-};
-
-export const getTimeStamp = (timestamp) => {
-  const date = Date.now();
-
-  const time = date - timestamp;
-  const hours = Math.floor(time / 1000 / 60 / 60);
-  const minutes = Math.floor((time / 1000 / 60) % 60);
-  const seconds = Math.floor(((time / 1000) % 60) % 60);
-
-  if (hours >= 1) {
-    if (hours >= 24) {
-      const day = Math.floor(hours / 24);
-      if (day === 1) {
-        return "하루 전";
-      } else {
-        return `${day}일 전`;
-      }
-    }
-    return `${hours}시간 전`;
-  } else if (minutes < 60 && minutes > 0) {
-    return `${minutes}분 전`;
-  } else {
-    return `${seconds}초 전`;
-  }
-};
-
 export const getRankEmblem = (tier) => {
   switch (tier) {
     case "IRON":
@@ -118,3 +87,54 @@ export const getRankEmblem = (tier) => {
       };
   }
 };
+
+export const getGameDuration = (gameDuration) => {
+  const second = Math.floor(gameDuration % 60);
+  const minute = Math.floor(gameDuration / 60);
+  return `${minute}분 ${second}초`;
+};
+
+export const getTimeStamp = (timestamp) => {
+  const date = Date.now();
+
+  const time = date - timestamp;
+  const hours = Math.floor(time / 1000 / 60 / 60);
+  const minutes = Math.floor((time / 1000 / 60) % 60);
+  const seconds = Math.floor(((time / 1000) % 60) % 60);
+
+  if (hours >= 1) {
+    if (hours >= 24) {
+      const day = Math.floor(hours / 24);
+      if (day === 1) {
+        return "하루 전";
+      } else {
+        return `${day}일 전`;
+      }
+    }
+    return `${hours}시간 전`;
+  } else if (minutes < 60 && minutes > 0) {
+    return `${minutes}분 전`;
+  } else {
+    return `${seconds}초 전`;
+  }
+};
+
+export const getKDARatio = (kills, deaths, assists) => {
+  if (deaths === 0) {
+    return "Perfect";
+  } else {
+    const involvementRate = (kills + assists) / deaths;
+    return `${involvementRate.toFixed(2)} : 1`;
+  }
+};
+
+export const getItemImage = () => {};
+
+// export const getTierAvg = (participants) => {
+//   participants.map(async (player) => {
+//     console.log(player);
+//     Promise.all([
+//       await asyncUtil(getSummonerRank(player.summonerId), 1000)
+//     ]).then(([summonerRankData]) => {});
+//   });
+// };
