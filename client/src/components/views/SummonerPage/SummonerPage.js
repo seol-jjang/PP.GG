@@ -11,7 +11,6 @@ import "../../../styles/summonerPage/summoner.scss";
 import MatchList from "./matchList/MatchList";
 
 const SummonerPage = () => {
-  const QUEUE_TYPE = "RANKED_SOLO_5x5";
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [summonerRank, setSummonerRank] = useState(null);
   const [matchData, setMatchData] = useState([]);
@@ -35,13 +34,7 @@ const SummonerPage = () => {
             await asyncUtil(getMatchData(accountId, count), 1000)
           ]).then(([summonerRankData, matchDetailData]) => {
             setMatchData(matchDetailData.data.matchData);
-            if (summonerRankData.data.rankData.length > 0) {
-              const { rankData } = summonerRankData.data;
-              const rank = Object.values(rankData).find(
-                (rankType) => rankType.queueType === QUEUE_TYPE
-              );
-              setSummonerRank(rank);
-            }
+            setSummonerRank(summonerRankData.data.rankData);
             setIsCancelled(true);
           });
         }

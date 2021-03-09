@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getSummonerInfo = (nickname) => {
   const body = {
-    nickname: encodeURI(nickname)
+    nickname: nickname
   };
   return axios.post("/ppgg/summoners/summonerInfo", body);
 };
@@ -20,6 +20,14 @@ export const getMatchData = (accountId, count) => {
     count: count
   };
   return axios.post("/ppgg/matches/matchData", body);
+};
+
+export const getMoreMatchData = (accountId, count) => {
+  const body = {
+    accountId: accountId,
+    count: count
+  };
+  return axios.post("/ppgg/matches/moreMatchData", body);
 };
 
 export const getChampionData = () => {

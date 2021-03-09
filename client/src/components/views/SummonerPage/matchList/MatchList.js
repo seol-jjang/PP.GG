@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { asyncUtil } from "../../../utils/asyncUtil";
 import MatchItem from "./MatchItem";
-import { getMatchData } from "../../../utils/api";
+import { getMoreMatchData } from "../../../utils/api";
 
 const MatchList = ({ matchData, accountId }) => {
   const itemRef = useRef(null);
@@ -28,7 +28,7 @@ const MatchList = ({ matchData, accountId }) => {
       min: count.min + 10,
       max: count.max + 10
     };
-    Promise.all([asyncUtil(getMatchData(accountId, newCount), 1000)]).then(
+    Promise.all([asyncUtil(getMoreMatchData(accountId, newCount), 1000)]).then(
       ([matchDetailData]) => {
         setMatchList((data) => data.concat(matchDetailData.data.matchData));
         console.log(itemRef);
