@@ -14,12 +14,8 @@ const SummonerPage = () => {
   const QUEUE_TYPE = "RANKED_SOLO_5x5";
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [summonerRank, setSummonerRank] = useState(null);
-  const [matchData, setMatchData] = useState(null);
+  const [matchData, setMatchData] = useState([]);
   const [isCancelled, setIsCancelled] = useState(false);
-  const [count, setCount] = useState({
-    min: 0,
-    max: 10
-  });
   const param = useParams();
 
   useEffect(() => {
@@ -56,23 +52,6 @@ const SummonerPage = () => {
     };
   }, [isCancelled, param.nickname]);
 
-  useEffect(() => {
-    if (summonerInfo) {
-      Promise.all([
-        asyncUtil(getMatchData(summonerInfo.accountId, count), 1000)
-      ]).then(([matchDetailData]) => {
-        setMatchData((data) => data.concat(matchDetailData.data.matchData));
-      });
-    }
-  }, [count]);
-
-  const onMoreDataHandle = () => {
-    setCount({
-      min: count.min + 10,
-      max: count.max + 10
-    });
-  };
-
   if (!isCancelled) {
     return <section></section>;
   }
@@ -80,26 +59,27 @@ const SummonerPage = () => {
     return (
       <article className="article">
         <header className="summoner-info">
-          <div className="summoner__level">
-            <img
-              src={`http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/${summonerInfo.profileIconId}.png`}
-              alt="profileIcon"
-            />
-            <span>{summonerInfo.summonerLevel}</span>
-          </div>
-          <div className="summoner__name">
-            <h2>{summonerInfo.name}</h2>
-            <button className="refresh-btn">전적 갱신</button>
-          </div>
+          <section>
+            <div className="summoner__level">
+              <img
+                src={`http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/${summonerInfo.profileIconId}.png`}
+                alt="profileIcon"
+              />
+              <span>{summonerInfo.summonerLevel}</span>
+            </div>
+            <div className="summoner__name">
+              <h2>{summonerInfo.name}</h2>
+              <button className="refresh-btn">전적 갱신</button>
+            </div>
+          </section>
+          <RankInfo summonerRank={summonerRank} />
         </header>
         <div className="detail-contents">
-          <section className="info-contents">
-            <RankInfo summonerRank={summonerRank} />
-          </section>
+          <section className="info-contents"></section>
           <section className="match-contents">
             <MatchList
               matchData={matchData}
-              onMoreDataHandle={onMoreDataHandle}
+              accountId={summonerInfo.accountId}
             />
           </section>
         </div>

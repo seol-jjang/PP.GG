@@ -18,6 +18,10 @@ export const getQueueType = (queueId) => {
       return "우르프";
     case 920:
       return "포로왕";
+    case 2000:
+    case 2010:
+    case 2020:
+      return "튜토리얼";
     default:
       return "이벤트";
   }
@@ -105,10 +109,10 @@ export const getTimeStamp = (timestamp) => {
   if (hours >= 1) {
     if (hours >= 24) {
       const day = Math.floor(hours / 24);
-      if (day === 1) {
+      if (day <= 0) {
         return "하루 전";
       } else {
-        return `${day}일 전`;
+        return `${day + 1}일 전`;
       }
     }
     return `${hours}시간 전`;
@@ -129,6 +133,41 @@ export const getKDARatio = (kills, deaths, assists) => {
 };
 
 export const getItemImage = () => {};
+
+export const getCScalc = (gameDuration, cs) => {
+  const second = Number((Math.floor(gameDuration % 60) / 60).toFixed(2));
+  const minute = Math.floor(gameDuration / 60);
+
+  const csM = cs / (second + minute);
+  return csM.toFixed(1);
+};
+
+export const getKillstreak = (stats) => {
+  if (stats.pentaKills > 0) {
+    return <p className="killstreak">펜타킬</p>;
+  } else if (stats.quadraKills > 0) {
+    return <p className="killstreak">쿼드라킬</p>;
+  } else if (stats.tripleKills > 0) {
+    return <p className="killstreak">트리플킬</p>;
+  } else if (stats.doubleKills > 0) {
+    return <p className="killstreak">더블킬</p>;
+  } else {
+    return;
+  }
+};
+
+export const getKillinvolvement = (participants, participant) => {
+  const totalKills = participants.reduce((acc, current) => {
+    if (current.teamId === participant.teamId) {
+      return acc + current.stats.kills;
+    } else {
+      return acc;
+    }
+  }, 0);
+  const playerKA = participant.stats.kills + participant.stats.assists;
+
+  return ((playerKA / totalKills) * 100).toFixed(0);
+};
 
 // export const getTierAvg = (participants) => {
 //   participants.map(async (player) => {

@@ -1,14 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import {
+  getCScalc,
   getGameDuration,
   getKDARatio,
   getQueueType,
   getTierAvg,
+  getKillinvolvement,
+  getKillstreak,
   getTimeStamp
 } from "../../../utils/gameUtil";
 import ChampionIcon from "../../common/championIcon/ChampionIcon";
 import ItemIcon from "../../common/ItemIcon";
 import SummonerSpell from "../../common/summonerSpell/SummonerSpell";
+import Participants from "./Participants";
 
 const MatchItem = ({ match }) => {
   const {
@@ -16,13 +20,13 @@ const MatchItem = ({ match }) => {
     queue,
     participant,
     participantIdentities,
+    participants,
     gameDuration,
     timestamp
   } = match;
 
   return (
-    <li className={`${win ? "matchitem--win" : "matchitem--lose"}`}>
-      {console.log(match)}
+    <>
       <section className="game-info">
         <p className="sub-text queue-type">{getQueueType(queue)}</p>
         <p className="sub-text">{getTimeStamp(timestamp)}</p>
@@ -57,27 +61,52 @@ const MatchItem = ({ match }) => {
           </span>{" "}
           평점
         </p>
+        {getKillstreak(participant.stats)}
       </section>
       <section className="summoner-gameInfo">
         <p>{participant.stats.champLevel} 레벨</p>
         <p>
           {participant.stats.totalMinionsKilled +
-            participant.stats.neutralMinionsKilled}{" "}
+            participant.stats.neutralMinionsKilled}
+          {
+            <span className="csm">
+              (
+              {getCScalc(
+                gameDuration,
+                participant.stats.totalMinionsKilled +
+                  participant.stats.neutralMinionsKilled
+              )}
+              )
+            </span>
+          }
           CS
+        </p>
+        <p className="kill-involvement">
+          킬관여 {getKillinvolvement(participants, participant)}%
         </p>
       </section>
       <section className="items">
         <div className="items__item">
           <ItemIcon stats={participant.stats} />
         </div>
-        <span className="item-bg ward">
-          <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/item/${participant.stats.item6}.png`}
-            alt={`item_${participant.stats.item6}`}
-          />
-        </span>
+        {participant.stats.item6 === 0 ? (
+          <span className="item-bg ward"></span>
+        ) : (
+          <span className="item-bg ward">
+            <img
+              src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/item/${participant.stats.item6}.png`}
+              alt={`item_${participant.stats.item6}`}
+            />
+          </span>
+        )}
       </section>
-    </li>
+      <section>
+        <Participants
+          participantIdentities={participantIdentities}
+          participants={participants}
+        />
+      </section>
+    </>
   );
 };
 

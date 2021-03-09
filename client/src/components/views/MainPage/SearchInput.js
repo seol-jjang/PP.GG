@@ -7,6 +7,7 @@ const SearchInput = () => {
     summonerName: ""
   });
   const history = useHistory();
+
   const onSubmitHandle = (e) => {
     e.preventDefault();
     const nickname = input.summonerName.replace(/ /g, "+");

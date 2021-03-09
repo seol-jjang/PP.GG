@@ -3,9 +3,12 @@ import { getRankEmblem } from "../../utils/gameUtil";
 
 const RankInfo = ({ summonerRank }) => {
   const [emblemData, setEmblemData] = useState(null);
+  const tier = ["MASTER", "GRANDMASTER", "CHALLENGER"];
+
   useEffect(() => {
     if (summonerRank) setEmblemData(getRankEmblem(summonerRank.tier));
   }, [summonerRank]);
+
   if (summonerRank && emblemData) {
     return (
       <div className="summoner__rank">
@@ -17,7 +20,7 @@ const RankInfo = ({ summonerRank }) => {
             <span>솔로랭크</span>
           </div>
           <div>
-            <span className="league-point">{summonerRank.leaguePoints}LP</span>
+            <span className="league-point">{summonerRank.leaguePoints} LP</span>
             <span>{summonerRank.wins}승</span>
             <span>{summonerRank.losses}패</span>
           </div>
@@ -26,6 +29,7 @@ const RankInfo = ({ summonerRank }) => {
             style={{ color: `${emblemData.colorCode}` }}
           >
             {summonerRank.tier}
+            {tier.indexOf(summonerRank.tier) < 0 ? ` ${summonerRank.rank}` : ""}
           </p>
         </div>
       </div>

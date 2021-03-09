@@ -3,14 +3,20 @@
 
 .article {
   margin-top: 80px;
+  margin-bottom: 120px;
   padding: 40px 30px;
   border-radius: 30px;
   background-color: #fff;
+  // box-shadow: 3px 14px 10px #d8d8d86c;
 }
 .summoner-info {
   margin-bottom: 40px;
   display: flex;
+  justify-content: space-between;
   align-items: stretch;
+  section {
+    display: flex;
+  }
 }
 .summoner__level {
   position: relative;
@@ -54,13 +60,7 @@
 }
 
 .detail-contents {
-  display: grid;
-  grid-template-columns: 0.8fr 2fr;
-  gap: 30px;
-  // .info-contents {
-  //   margin-right: 30px;
-  // }
-  // .match-contents {
-  //   flex-grow: 1;
-  // }
+  .info-contents {
+    margin-bottom: 20px;
+  }
 }
