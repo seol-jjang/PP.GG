@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const rankSchema = mongoose.Schema({
+  summonerId: {
+    type: String
+  },
   rankData: {
     type: Object
   },

@@ -15,13 +15,14 @@ router.post("/summonerInfo", (req, res) => {
       .then((response) => {
         const date = Date.now();
         const summoner = new Summoner({
+          name: response.data.name,
           summonerData: response.data,
           updateDate: date
         });
-        summoner.save((err, doc) => {
-          return res.status(200).json({
-            user: response.data
-          });
+        summoner.save((err, doc) => {});
+        return res.status(200).json({
+          user: response.data,
+          updateDate: date
         });
       })
       .catch((error) => {
@@ -36,7 +37,7 @@ router.post("/summonerInfo", (req, res) => {
   };
 
   Summoner.findOne(
-    { summonerData: { name: req.body.nickname } },
+    { name: { $regex: req.body.nickname, $options: "i" } },
     (err, data) => {
       if (data) {
         const date = Date.now();
@@ -46,7 +47,8 @@ router.post("/summonerInfo", (req, res) => {
 
         if (updateTime <= 1) {
           return res.status(200).json({
-            user: data
+            user: data.summonerData,
+            updateDate: data.updateDate
           });
         } else {
           updateSummonerInfo();
@@ -70,13 +72,14 @@ router.post("/summonerRank", (req, res) => {
         );
         const date = Date.now();
         const rank = new Rank({
+          summonerId: req.body.summonerId,
           rankData: resultData,
           updateDate: date
         });
-        rank.save((err, doc) => {
-          return res.status(200).json({
-            rankData: resultData
-          });
+        rank.save((err, doc) => {});
+        return res.status(200).json({
+          rankData: resultData,
+          updateDate: date
         });
       })
       .catch((error) => {
@@ -84,27 +87,25 @@ router.post("/summonerRank", (req, res) => {
       });
   };
 
-  Rank.findOne(
-    { rankData: { summonerId: req.body.summonerId } },
-    (err, data) => {
-      if (data) {
-        const date = Date.now();
-        const updateTime = Math.floor(
-          (date - data.updateDate) / 1000 / 60 / 60 / 24
-        );
+  Rank.findOne({ summonerId: req.body.summonerId }, (err, data) => {
+    if (data) {
+      const date = Date.now();
+      const updateTime = Math.floor(
+        (date - data.updateDate) / 1000 / 60 / 60 / 24
+      );
 
-        if (updateTime <= 1) {
-          return res.status(200).json({
-            rankData: data
-          });
-        } else {
-          updateRankData();
-        }
+      if (updateTime <= 1) {
+        return res.status(200).json({
+          rankData: data.rankData,
+          updateDate: data.updateDate
+        });
       } else {
         updateRankData();
       }
+    } else {
+      updateRankData();
     }
-  );
+  });
 });
 
 module.exports = router;

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const summonerSchema = mongoose.Schema({
+  name: {
+    type: String
+  },
   summonerData: {
     type: Object
   },
@@ -12,25 +15,3 @@ const summonerSchema = mongoose.Schema({
 const Summoner = mongoose.model("Summoner", summonerSchema);
 
 module.exports = { Summoner };
-
-// accountId: {
-//   type: String
-// },
-// id: {
-//   type: String
-// },
-// name: {
-//   type: String
-// },
-// profileIconId: {
-//   type: Number
-// },
-// puuid: {
-//   type: String
-// },
-// revisionDate: {
-//   type: Number
-// },
-// summonerLevel: {
-//   type: Number
-// },

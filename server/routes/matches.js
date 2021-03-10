@@ -68,10 +68,10 @@ router.post("/matchData", (req, res) => {
             matchData: matchDetailData,
             updateDate: date
           });
-          match.save((err, doc) => {
-            return res.status(200).json({
-              matchData: matchDetailData
-            });
+          match.save((err, doc) => {});
+          return res.status(200).json({
+            matchData: matchDetailData,
+            updateDate: date
           });
         });
       });
@@ -85,7 +85,10 @@ router.post("/matchData", (req, res) => {
       );
 
       if (updateTime <= 1) {
-        return res.json({ matchData: data.matchData });
+        return res.json({
+          matchData: data.matchData,
+          updateDate: data.updateDate
+        });
       } else {
         fetchMatchData();
       }

@@ -1,5 +1,18 @@
 import axios from "axios";
 
+export const getRefreshSummoner = (nickname) => {
+  const body = {
+    nickname: nickname
+  };
+  return axios.post("/ppgg/refresh/refreshSummoner", body);
+};
+export const getRefreshRank = (summonerId) => {
+  const body = {
+    summonerId: summonerId
+  };
+  return axios.post("/ppgg/refresh/refreshRank", body);
+};
+
 export const getSummonerInfo = (nickname) => {
   const body = {
     nickname: nickname
