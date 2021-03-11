@@ -1,5 +1,15 @@
 @import "./summonerRank.scss";
 @import "./matchListSection.scss";
+@import "./matchAvgData.scss";
+
+@keyframes rotationLoading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .article {
   margin-top: 80px;
@@ -56,11 +66,45 @@
     background-color: #1e53bf;
     font-size: 14px;
     color: white;
+    span {
+      svg {
+        animation: rotationLoading 1s linear infinite;
+      }
+    }
+  }
+  .refresh-time {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #6868689a;
   }
 }
 
 .detail-contents {
   .info-contents {
+    display: flex;
     margin-bottom: 20px;
+  }
+
+  .more-btn {
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    outline: 0;
+    border: 1px solid rgba(94, 94, 94, 0.18);
+    border-radius: 15px;
+    padding: 15px 10px;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(94, 94, 94, 0.66);
+    span {
+      svg {
+        animation: rotationLoading 1s linear infinite;
+      }
+    }
+    &:disabled {
+      display: none;
+      cursor: default;
+    }
   }
 }

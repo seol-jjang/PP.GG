@@ -13,6 +13,14 @@ export const getRefreshRank = (summonerId) => {
   return axios.post("/ppgg/refresh/refreshRank", body);
 };
 
+export const getRefreshMatchData = (accountId, count) => {
+  const body = {
+    accountId: accountId,
+    count: count
+  };
+  return axios.post("/ppgg/refresh/refreshMatchData", body);
+};
+
 export const getSummonerInfo = (nickname) => {
   const body = {
     nickname: nickname

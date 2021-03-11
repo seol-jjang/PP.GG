@@ -4,7 +4,7 @@ const axios = require("axios");
 const { Match } = require("../models/Match");
 
 router.post("/matchData", (req, res) => {
-  const fetchMatchData = () => {
+  const fetchMatchData = (newData) => {
     const getMatchDetail = async (matches) => {
       const matchDetailData = [];
       await Promise.all(
@@ -63,6 +63,23 @@ router.post("/matchData", (req, res) => {
         const { matches } = response.data;
         Promise.all([getMatchDetail(matches)]).then(([matchDetailData]) => {
           const date = Date.now();
+          if (newData) {
+            const newMatchData = {
+              accountId: req.body.accountId,
+              matchData: matchDetailData,
+              updateDate: date
+            };
+            Match.findOneAndReplace(
+              { accountId: req.body.accountId },
+              newMatchData,
+              { returnNewDocument: true }
+            ).then((response) => {
+              return res.status(200).json({
+                matchData: response.matchData,
+                updateDate: response.date
+              });
+            });
+          }
           const match = new Match({
             accountId: req.body.accountId,
             matchData: matchDetailData,
@@ -78,7 +95,9 @@ router.post("/matchData", (req, res) => {
   };
 
   Match.findOne({ accountId: req.body.accountId }, (err, data) => {
+    let newData;
     if (data) {
+      newData = true;
       const date = Date.now();
       const updateTime = Math.floor(
         (date - data.updateDate) / 1000 / 60 / 60 / 24
@@ -90,10 +109,11 @@ router.post("/matchData", (req, res) => {
           updateDate: data.updateDate
         });
       } else {
-        fetchMatchData();
+        fetchMatchData(newData);
       }
     } else {
-      fetchMatchData();
+      newData = false;
+      fetchMatchData(newData);
     }
   });
 });

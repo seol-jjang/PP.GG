@@ -31,7 +31,9 @@ const Participants = ({ participantIdentities, participants }) => {
               return (
                 <li className="summoner" key={index}>
                   <ChampionIcon championId={participants[index].championId} />
-                  <p className="name">{name}</p>
+                  <p className="name" onClick={() => onClickHandle(name)}>
+                    {name}
+                  </p>
                 </li>
               );
             })}

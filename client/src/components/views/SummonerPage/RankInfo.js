@@ -6,7 +6,9 @@ const RankInfo = ({ summonerRank }) => {
   const tier = ["MASTER", "GRANDMASTER", "CHALLENGER"];
 
   useEffect(() => {
-    if (summonerRank) setEmblemData(getRankEmblem(summonerRank.tier));
+    if (summonerRank) {
+      setEmblemData(getRankEmblem(summonerRank.tier));
+    }
   }, [summonerRank]);
 
   if (summonerRank && emblemData) {

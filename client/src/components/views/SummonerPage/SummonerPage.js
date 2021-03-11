@@ -2,24 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { asyncUtil } from "../../utils/asyncUtil";
 import { getTimeStamp } from "../../utils/gameUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   getSummonerInfo,
   getSummonerRank,
   getMatchData,
   getRefreshSummoner,
   getRefreshRank,
+  getRefreshMatchData,
   getMoreMatchData
 } from "../../utils/api";
 import RankInfo from "./RankInfo";
 import "../../../styles/summonerPage/summoner.scss";
 import MatchList from "./matchList/MatchList";
+import MatchAvgData from "./MatchAvgData";
 
 const SummonerPage = () => {
   const [summonerInfo, setSummonerInfo] = useState(null);
   const [summonerRank, setSummonerRank] = useState(null);
   const [matchData, setMatchData] = useState([]);
-  const [isCancelled, setIsCancelled] = useState(false);
   const [updateDate, setUpdateDate] = useState(null);
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState({
+    min: 0,
+    max: 10
+  });
+
   const param = useParams();
 
   useEffect(() => {
@@ -30,7 +40,6 @@ const SummonerPage = () => {
         if (response.data.user) {
           setSummonerInfo(response.data.user);
           setUpdateDate(response.data.updateDate);
-          console.log(response.data);
           const { accountId, id } = response.data.user;
           const count = {
             min: 0,
@@ -57,17 +66,17 @@ const SummonerPage = () => {
   const refreshHandle = () => {
     const time = Date.now() - updateDate;
     const hours = Math.floor(time / 1000 / 60 / 60);
-    const minutes = Math.floor((time / 1000 / 60) % 60);
+    const minutes = Math.floor(time / 1000 / 60);
     const seconds = Math.floor(((time / 1000) % 60) % 60);
-    if (hours <= 0 && minutes <= 5) {
+    if (hours <= 0 && minutes <= 2) {
       const convertSeconds = minutes * 60 + seconds;
-      console.log(convertSeconds);
       alert(
         `${convertSeconds}초 전에 갱신했습니다. ${
-          300 - convertSeconds
+          180 - convertSeconds
         }초 후에 다시 갱신하실 수 있습니다.`
       );
     } else {
+      setRefresh(true);
       const nickname = param.nickname.replace(/\+/g, " ");
       getRefreshSummoner(nickname).then(async (response) => {
         const count = {
@@ -77,14 +86,37 @@ const SummonerPage = () => {
         setSummonerInfo(response.data.user);
         Promise.all([
           await asyncUtil(getRefreshRank(summonerInfo.id), 1000),
-          await asyncUtil(getMoreMatchData(summonerInfo.accountId, count), 1000)
+          await asyncUtil(
+            getRefreshMatchData(summonerInfo.accountId, count),
+            1000
+          )
         ]).then(([summonerRankData, matchDetailData]) => {
+          setRefresh(false);
           setMatchData(matchDetailData.data.matchData);
           setSummonerRank(summonerRankData.data.rankData);
           setUpdateDate(response.data.updateDate);
+          window.location.reload();
         });
       });
     }
+  };
+
+  const onMoreDataHandle = () => {
+    setLoading(true);
+    const newCount = {
+      min: count.min + 10,
+      max: count.max + 10
+    };
+    setCount({
+      min: count.min + 10,
+      max: count.max + 10
+    });
+    Promise.all([
+      asyncUtil(getMoreMatchData(summonerInfo.accountId, newCount), 1000)
+    ]).then(([matchDetailData]) => {
+      setMatchData((data) => data.concat(matchDetailData.data.matchData));
+      setLoading(false);
+    });
   };
 
   if (!isCancelled) {
@@ -104,22 +136,44 @@ const SummonerPage = () => {
             </div>
             <div className="summoner__name">
               <h2>{summonerInfo.name}</h2>
-              <p>{getTimeStamp(updateDate)}</p>
+              <p className="refresh-time">
+                마지막 업데이트: {getTimeStamp(updateDate)}
+              </p>
               <button className="refresh-btn" onClick={refreshHandle}>
-                전적 갱신
+                {refresh ? (
+                  <span>
+                    <AiOutlineLoading3Quarters />
+                  </span>
+                ) : (
+                  <>전적 갱신</>
+                )}
               </button>
             </div>
           </section>
           <RankInfo summonerRank={summonerRank} />
         </header>
         <div className="detail-contents">
-          <section className="info-contents"></section>
-          <section className="match-contents">
-            <MatchList
-              matchData={matchData}
-              accountId={summonerInfo.accountId}
-            />
-          </section>
+          <>
+            <section className="info-contents">
+              <MatchAvgData matchData={matchData} count={count} />
+            </section>
+            <section className="match-contents">
+              <MatchList matchData={matchData} />
+              {matchData.length >= 50 ? (
+                <></>
+              ) : (
+                <button className="more-btn" onClick={onMoreDataHandle}>
+                  {loading ? (
+                    <span>
+                      <AiOutlineLoading3Quarters />
+                    </span>
+                  ) : (
+                    <>더보기</>
+                  )}
+                </button>
+              )}
+            </section>
+          </>
         </div>
       </article>
     );
