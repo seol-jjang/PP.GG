@@ -53,7 +53,7 @@ export const getMoreMatchData = (accountId, count) => {
 
 export const getChampionData = () => {
   return axios.get(
-    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/champion.json"
+    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/champion.json"
   );
 };
 
@@ -65,6 +65,6 @@ export const getSummonerSpell = () => {
 
 export const getItem = () => {
   return axios.get(
-    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/item.json"
+    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/item.json"
   );
 };

@@ -134,6 +134,7 @@ router.post("/summonerRank", (req, res) => {
       const updateTime = Math.floor(
         (date - data.updateDate) / 1000 / 60 / 60 / 24
       );
+      console.log(updateTime);
 
       if (updateTime <= 1) {
         return res.status(200).json({

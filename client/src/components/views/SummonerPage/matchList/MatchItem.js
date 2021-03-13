@@ -10,6 +10,7 @@ import {
   getTimeStamp
 } from "../../../utils/gameUtil";
 import ChampionIcon from "../../common/championIcon/ChampionIcon";
+import ChampionName from "../../common/championName/ChampionName";
 import ItemIcon from "../../common/ItemIcon";
 import SummonerSpell from "../../common/summonerSpell/SummonerSpell";
 import Participants from "./Participants";
@@ -36,14 +37,17 @@ const MatchItem = ({ match }) => {
         <p className="sub-text">{getGameDuration(gameDuration)}</p>
       </section>
       <section className="game-setting">
-        <ChampionIcon championId={participant.championId} />
-        <div className="summoner-setting">
-          <div className="summoner-spells">
-            <SummonerSpell spellId={participant.spell1Id} />
-            <SummonerSpell spellId={participant.spell2Id} />
+        <div>
+          <ChampionIcon championId={participant.championId} />
+          <div className="summoner-setting">
+            <div className="summoner-spells">
+              <SummonerSpell spellId={participant.spell1Id} />
+              <SummonerSpell spellId={participant.spell2Id} />
+            </div>
+            <div className="summoner-runes"></div>
           </div>
-          <div className="summoner-runes"></div>
         </div>
+        <ChampionName championId={participant.championId} />
       </section>
       <section className="kda">
         <p className="kda__KDA">
@@ -57,7 +61,8 @@ const MatchItem = ({ match }) => {
               participant.stats.kills,
               participant.stats.deaths,
               participant.stats.assists
-            )}
+            )}{" "}
+            : 1
           </span>{" "}
           평점
         </p>

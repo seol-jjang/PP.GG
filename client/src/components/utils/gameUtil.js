@@ -128,7 +128,7 @@ export const getKDARatio = (kills, deaths, assists) => {
     return "Perfect";
   } else {
     const involvementRate = (kills + assists) / deaths;
-    return `${involvementRate.toFixed(2)} : 1`;
+    return `${involvementRate.toFixed(2)}`;
   }
 };
 
