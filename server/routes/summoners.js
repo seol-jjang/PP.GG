@@ -20,7 +20,7 @@ router.post("/summonerInfo", (req, res) => {
             summonerData: response.data,
             updateDate: date
           };
-          Summoner.findOneAndReplace(
+          return Summoner.findOneAndReplace(
             { name: { $regex: req.body.nickname, $options: "i" } },
             newSummonerData,
             { returnNewDocument: true }
@@ -30,18 +30,19 @@ router.post("/summonerInfo", (req, res) => {
               updateDate: response.updateDate
             });
           });
-        }
-        const summoner = new Summoner({
-          name: response.data.name,
-          summonerData: response.data,
-          updateDate: date
-        });
-        summoner.save((err, doc) => {
-          return res.status(200).json({
-            user: response.data,
+        } else {
+          const summoner = new Summoner({
+            name: response.data.name,
+            summonerData: response.data,
             updateDate: date
           });
-        });
+          summoner.save((err, doc) => {
+            return res.status(200).json({
+              user: response.data,
+              updateDate: date
+            });
+          });
+        }
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -65,13 +66,17 @@ router.post("/summonerInfo", (req, res) => {
           (date - data.updateDate) / 1000 / 60 / 60 / 24
         );
 
-        if (updateTime <= 1) {
-          return res.status(200).json({
-            user: data.summonerData,
-            updateDate: data.updateDate
-          });
-        } else {
+        if (req.body.refresh) {
           updateSummonerInfo(newData);
+        } else {
+          if (updateTime <= 1) {
+            return res.status(200).json({
+              user: data.summonerData,
+              updateDate: data.updateDate
+            });
+          } else {
+            updateSummonerInfo(newData);
+          }
         }
       } else {
         newData = false;
@@ -98,7 +103,7 @@ router.post("/summonerRank", (req, res) => {
             rankData: resultData,
             updateDate: date
           };
-          Rank.findOneAndReplace(
+          return Rank.findOneAndReplace(
             { summonerId: req.body.summonerId },
             newRankData,
             { returnNewDocument: true }
@@ -134,15 +139,18 @@ router.post("/summonerRank", (req, res) => {
       const updateTime = Math.floor(
         (date - data.updateDate) / 1000 / 60 / 60 / 24
       );
-      console.log(updateTime);
 
-      if (updateTime <= 1) {
-        return res.status(200).json({
-          rankData: data.rankData,
-          updateDate: data.updateDate
-        });
-      } else {
+      if (req.body.refresh) {
         updateRankData(newData);
+      } else {
+        if (updateTime <= 1) {
+          return res.status(200).json({
+            rankData: data.rankData,
+            updateDate: data.updateDate
+          });
+        } else {
+          updateRankData(newData);
+        }
       }
     } else {
       newData = false;

@@ -5,15 +5,21 @@ import "../../../../styles/common/championIcon.scss";
 const ChampionName = ({ championId }) => {
   const [championName, setChampionName] = useState(null);
   useEffect(() => {
-    getChampionData().then((response) => {
-      const { data } = response.data;
+    let mounted = true;
+    if (mounted) {
+      getChampionData().then((response) => {
+        const { data } = response.data;
 
-      setChampionName(
-        Object.values(data).find(
-          (champion) => Number(champion.key) === championId
-        ).name
-      );
-    });
+        setChampionName(
+          Object.values(data).find(
+            (champion) => Number(champion.key) === championId
+          ).name
+        );
+      });
+    }
+    return () => {
+      mounted = false;
+    };
   }, [championId]);
   return <>{championName && <p className="champion-name">{championName}</p>}</>;
 };

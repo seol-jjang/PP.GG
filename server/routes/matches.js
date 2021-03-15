@@ -69,7 +69,7 @@ router.post("/matchData", (req, res) => {
               matchData: matchDetailData,
               updateDate: date
             };
-            Match.findOneAndReplace(
+            return Match.findOneAndReplace(
               { accountId: req.body.accountId },
               newMatchData,
               { returnNewDocument: true }
@@ -102,14 +102,17 @@ router.post("/matchData", (req, res) => {
       const updateTime = Math.floor(
         (date - data.updateDate) / 1000 / 60 / 60 / 24
       );
-
-      if (updateTime <= 1) {
-        return res.json({
-          matchData: data.matchData,
-          updateDate: data.updateDate
-        });
-      } else {
+      if (req.body.refresh) {
         fetchMatchData(newData);
+      } else {
+        if (updateTime <= 1) {
+          return res.json({
+            matchData: data.matchData,
+            updateDate: data.updateDate
+          });
+        } else {
+          fetchMatchData(newData);
+        }
       }
     } else {
       newData = false;

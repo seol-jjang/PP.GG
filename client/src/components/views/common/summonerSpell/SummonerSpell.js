@@ -5,13 +5,19 @@ import "../../../../styles/common/spellIcon.scss";
 const SummonerSpell = ({ spellId }) => {
   const [spellName, setSpellName] = useState(null);
   useEffect(() => {
-    getSummonerSpell().then((response) => {
-      const { data } = response.data;
+    let mounted = true;
+    if (mounted) {
+      getSummonerSpell().then((response) => {
+        const { data } = response.data;
 
-      setSpellName(
-        Object.values(data).find((spell) => Number(spell.key) === spellId).id
-      );
-    });
+        setSpellName(
+          Object.values(data).find((spell) => Number(spell.key) === spellId).id
+        );
+      });
+    }
+    return () => {
+      mounted = false;
+    };
   }, [spellId]);
   return (
     <>

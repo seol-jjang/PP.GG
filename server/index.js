@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.use("/ppgg/summoners", require("./routes/summoners"));
 app.use("/ppgg/matches", require("./routes/matches"));
-app.use("/ppgg/refresh", require("./routes/refresh"));
+app.use("/ppgg/rotations", require("./routes/rotations"));
 
 app.listen(5000, () => {
   console.log(`Server Running.. ${port}`);

@@ -4,7 +4,7 @@ import MainPage from "./components/views/MainPage/MainPage";
 import SummonerPage from "./components/views/SummonerPage/SummonerPage";
 import "./styles/styles.scss";
 
-function App() {
+const App = () => {
   return (
     <div className="contents">
       <Router>
@@ -15,6 +15,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

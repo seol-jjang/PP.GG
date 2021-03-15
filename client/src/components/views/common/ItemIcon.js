@@ -10,7 +10,7 @@ const ItemIcon = ({ stats }) => {
         setItems((items) => [...items, stats[item]]);
       }
     }
-  }, [stats]);
+  }, []);
 
   const renderItem = items.map((item, index) =>
     item === 0 || item >= 7000 ? (

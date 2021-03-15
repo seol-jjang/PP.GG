@@ -100,7 +100,6 @@ const MatchAvgData = ({ matchData, count }) => {
 
   const renderChampionStats = () => {
     const sliceData = champStats.slice(0, 3);
-    console.log(sliceData);
     return sliceData.map((champ, index) => {
       return (
         <li key={index}>
@@ -152,7 +151,6 @@ const MatchAvgData = ({ matchData, count }) => {
           <ul className="champion-stats">{renderChampionStats()}</ul>
         </>
       )}
-      {console.log(matchData)}
     </>
   );
 };

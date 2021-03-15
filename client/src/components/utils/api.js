@@ -1,44 +1,30 @@
 import axios from "axios";
 
-export const getRefreshSummoner = (nickname) => {
-  const body = {
-    nickname: nickname
-  };
-  return axios.post("/ppgg/refresh/refreshSummoner", body);
-};
-export const getRefreshRank = (summonerId) => {
-  const body = {
-    summonerId: summonerId
-  };
-  return axios.post("/ppgg/refresh/refreshRank", body);
+export const getChampionRotations = () => {
+  return axios.get("/ppgg/rotations/championRotations");
 };
 
-export const getRefreshMatchData = (accountId, count) => {
+export const getSummonerInfo = (nickname, refresh = false) => {
   const body = {
-    accountId: accountId,
-    count: count
-  };
-  return axios.post("/ppgg/refresh/refreshMatchData", body);
-};
-
-export const getSummonerInfo = (nickname) => {
-  const body = {
-    nickname: nickname
+    nickname: nickname,
+    refresh: refresh
   };
   return axios.post("/ppgg/summoners/summonerInfo", body);
 };
 
-export const getSummonerRank = (summonerId) => {
+export const getSummonerRank = (summonerId, refresh = false) => {
   const body = {
-    summonerId: summonerId
+    summonerId: summonerId,
+    refresh: refresh
   };
   return axios.post("/ppgg/summoners/summonerRank", body);
 };
 
-export const getMatchData = (accountId, count) => {
+export const getMatchData = (accountId, count, refresh = false) => {
   const body = {
     accountId: accountId,
-    count: count
+    count: count,
+    refresh: refresh
   };
   return axios.post("/ppgg/matches/matchData", body);
 };
