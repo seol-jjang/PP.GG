@@ -6,6 +6,9 @@ const rotationSchema = mongoose.Schema({
   },
   updateDate: {
     type: Number
+  },
+  updateDay: {
+    type: Number
   }
 });
 

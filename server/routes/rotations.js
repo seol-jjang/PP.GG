@@ -11,9 +11,11 @@ router.get("/championRotations", (req, res) => {
       )
       .then(async (response) => {
         const date = Date.now();
+        const day = new Date();
         const rotation = new Rotation({
           rotationList: response.data.freeChampionIds,
-          updateDate: date
+          updateDate: date,
+          updateDay: day.getDay()
         });
         rotation.save((err, doc) => {});
         return res.status(200).json({
@@ -22,19 +24,25 @@ router.get("/championRotations", (req, res) => {
       });
   };
   Rotation.find((err, data) => {
-    let newData;
     if (data.length > 0) {
-      newData = true;
+      const toDay = new Date();
       const date = Date.now();
+      const updateDate = data[data.length - 1].updateDay;
       const updateTime = Math.floor(
         (date - data[data.length - 1].updateDate) / 1000 / 60 / 60 / 24
       );
-      if (updateTime <= 1) {
+      if (toDay === 2) {
+        if (updateDate !== 2 && updateTime <= 0) {
+          getChampionIds();
+        } else {
+          return res.json({
+            rotationList: data[data.length - 1].rotationList
+          });
+        }
+      } else {
         return res.json({
           rotationList: data[data.length - 1].rotationList
         });
-      } else {
-        getChampionIds();
       }
     } else {
       getChampionIds();
