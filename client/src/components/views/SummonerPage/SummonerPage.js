@@ -10,9 +10,9 @@ import {
   getMoreMatchData
 } from "../../utils/api";
 import RankInfo from "./RankInfo";
-import "../../../styles/summonerPage/summoner.scss";
 import MatchList from "./matchList/MatchList";
 import MatchAvgData from "./MatchAvgData";
+import LoadingPage from "../common/loading/LoadingPage";
 
 const SummonerPage = () => {
   const btnRef = useRef();
@@ -26,6 +26,10 @@ const SummonerPage = () => {
   const [count, setCount] = useState({
     min: 0,
     max: 10
+  });
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
   });
 
   const param = useParams();
@@ -62,6 +66,20 @@ const SummonerPage = () => {
       mounted = false;
     };
   }, [param.nickname, refresh]);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const refreshHandle = () => {
     const time = Date.now() - updateDate;
@@ -104,11 +122,11 @@ const SummonerPage = () => {
   };
 
   if (!isCancelled) {
-    return <section></section>;
+    return <section>{/* //<LoadingPage /> */}</section>;
   }
   if (summonerInfo !== null) {
     return (
-      <>
+      <div className="contents">
         <header></header>
         <article className="article">
           <header className="summoner-info">
@@ -137,9 +155,18 @@ const SummonerPage = () => {
                 </button>
               </div>
             </section>
-            {!refresh && <RankInfo summonerRank={summonerRank} />}
+            {windowSize.width >= 530 &&
+              !refresh &&
+              summonerRank !== undefined && (
+                <RankInfo summonerRank={summonerRank} />
+              )}
           </header>
           <div className="detail-contents">
+            {windowSize.width < 530 && !refresh && summonerRank !== undefined && (
+              <section className="rank-contents">
+                <RankInfo summonerRank={summonerRank} />
+              </section>
+            )}
             {!refresh && (
               <>
                 <section className="info-contents">
@@ -174,7 +201,7 @@ const SummonerPage = () => {
             )}
           </div>
         </article>
-      </>
+      </div>
     );
   } else {
     return <section>일치하는 소환사가 없습니다...</section>;

@@ -105,7 +105,7 @@ const MatchItem = ({ match }) => {
           </span>
         )}
       </section>
-      <section>
+      <section className="participants">
         <Participants
           participantIdentities={participantIdentities}
           participants={participants}

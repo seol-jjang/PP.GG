@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../../styles/common/itemIcon.scss";
+import "../../../styles/iconStyle/itemIcon.scss";
 
 const ItemIcon = ({ stats }) => {
   const [items, setItems] = useState([]);

@@ -157,4 +157,40 @@
       }
     }
   }
+
+  @include viewportName("laptop") {
+    padding: 10px;
+    .matchlist__game .champion-icon {
+      width: 50px;
+    }
+  }
+  @include viewportName("tablet") {
+    padding: 10px 0;
+    border-radius: 0;
+    .matchlist__game {
+      border-radius: 0;
+    }
+  }
+  @include viewportName("small-tablet") {
+    .matchlist__game {
+      padding: 15px 5px;
+    }
+    .matchlist__game .participants {
+      display: none;
+    }
+  }
+  @include viewportName("mobile") {
+    .matchlist__game {
+      .summoner-gameInfo {
+        display: none;
+      }
+      .items .items__item {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .items .item-bg {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
 }

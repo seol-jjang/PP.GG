@@ -92,7 +92,7 @@ const MatchAvgData = ({ matchData, count }) => {
         <li
           className="rate-win"
           key={index}
-          style={{ width: 180 / count.max }}
+          style={{ width: `calc(100% / ${count.max})` }}
         ></li>
       );
     }

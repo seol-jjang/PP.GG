@@ -4,7 +4,7 @@ export const getChampionRotations = () => {
   return axios.get("/ppgg/rotations/championRotations");
 };
 
-export const getSummonerInfo = (nickname, refresh = false) => {
+export const getSummonerInfo = (nickname, refresh) => {
   const body = {
     nickname: nickname,
     refresh: refresh
@@ -12,7 +12,7 @@ export const getSummonerInfo = (nickname, refresh = false) => {
   return axios.post("/ppgg/summoners/summonerInfo", body);
 };
 
-export const getSummonerRank = (summonerId, refresh = false) => {
+export const getSummonerRank = (summonerId, refresh) => {
   const body = {
     summonerId: summonerId,
     refresh: refresh
@@ -20,7 +20,7 @@ export const getSummonerRank = (summonerId, refresh = false) => {
   return axios.post("/ppgg/summoners/summonerRank", body);
 };
 
-export const getMatchData = (accountId, count, refresh = false) => {
+export const getMatchData = (accountId, count, refresh) => {
   const body = {
     accountId: accountId,
     count: count,

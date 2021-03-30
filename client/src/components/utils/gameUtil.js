@@ -108,11 +108,11 @@ export const getTimeStamp = (timestamp) => {
 
   if (hours >= 1) {
     if (hours >= 24) {
-      const day = Math.floor(hours / 24);
-      if (day <= 0) {
+      const day = Math.round(hours / 24);
+      if (day === 1) {
         return "하루 전";
       } else {
-        return `${day + 1}일 전`;
+        return `${day}일 전`;
       }
     }
     return `${hours}시간 전`;

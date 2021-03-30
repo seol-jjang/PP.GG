@@ -1,15 +1,27 @@
 .form-container {
+  width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @include viewportName("tablet") {
+    width: 100%;
+    padding: 0 50px;
+  }
+  @include viewportName("mobile") {
+    padding: 0;
+  }
   .search-input {
-    width: 500px;
+    width: 100%;
     height: 50px;
     font-size: 17px;
     padding: 10px 15px;
     border-radius: 5px;
     outline: 0;
-    border: 2px solid #607a69;
+    border: 2px solid white;
+    //border: 2px solid #607a69;
+    @include viewportName("mobile") {
+      border-radius: 0;
+    }
   }
   button[type="submit"] {
     cursor: pointer;
@@ -17,11 +29,15 @@
     outline: 0;
     height: 50px;
     padding: 10px 15px;
-    margin-left: 5px;
+    margin-left: -10px;
     border-radius: 5px;
-    background-color: #607a69;
+    background-color: #67ac78;
+    border: 2px solid white;
     font-size: 20px;
     font-weight: bold;
     color: white;
+    @include viewportName("mobile") {
+      border-radius: 0;
+    }
   }
 }

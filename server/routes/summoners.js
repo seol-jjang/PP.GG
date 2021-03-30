@@ -69,13 +69,13 @@ router.post("/summonerInfo", (req, res) => {
         if (req.body.refresh) {
           updateSummonerInfo(newData);
         } else {
-          if (updateTime <= 1) {
+          if (updateTime > 2) {
+            updateSummonerInfo(newData);
+          } else {
             return res.status(200).json({
               user: data.summonerData,
               updateDate: data.updateDate
             });
-          } else {
-            updateSummonerInfo(newData);
           }
         }
       } else {
@@ -96,11 +96,14 @@ router.post("/summonerRank", (req, res) => {
         const resultData = Object.values(response.data).find(
           (rankType) => rankType.queueType === "RANKED_SOLO_5x5"
         );
+        const unrankData = {
+          tier: "unrank"
+        };
         const date = Date.now();
         if (newData) {
           const newRankData = {
             summonerId: req.body.summonerId,
-            rankData: resultData,
+            rankData: resultData !== undefined ? resultData : unrankData,
             updateDate: date
           };
           return Rank.findOneAndReplace(
@@ -116,7 +119,7 @@ router.post("/summonerRank", (req, res) => {
         }
         const rank = new Rank({
           summonerId: req.body.summonerId,
-          rankData: resultData,
+          rankData: resultData !== undefined ? resultData : unrankData,
           updateDate: date
         });
         rank.save((err, doc) => {
@@ -139,17 +142,16 @@ router.post("/summonerRank", (req, res) => {
       const updateTime = Math.floor(
         (date - data.updateDate) / 1000 / 60 / 60 / 24
       );
-
       if (req.body.refresh) {
         updateRankData(newData);
       } else {
-        if (updateTime <= 1) {
+        if (updateTime > 2) {
+          updateRankData(newData);
+        } else {
           return res.status(200).json({
             rankData: data.rankData,
             updateDate: data.updateDate
           });
-        } else {
-          updateRankData(newData);
         }
       }
     } else {

@@ -6,14 +6,12 @@ import "./styles/styles.scss";
 
 const App = () => {
   return (
-    <div className="contents">
-      <Router>
-        <Switch>
-          <Route exact path="/" component={MainPage} />
-          <Route exact path="/summoner/:nickname" component={SummonerPage} />
-        </Switch>
-      </Router>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/summoner/:nickname" component={SummonerPage} />
+      </Switch>
+    </Router>
   );
 };
 

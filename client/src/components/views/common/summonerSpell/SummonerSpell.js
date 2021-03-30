@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getSummonerSpell } from "../../../utils/api";
-import "../../../../styles/common/spellIcon.scss";
+import "../../../../styles/iconStyle/spellIcon.scss";
 
 const SummonerSpell = ({ spellId }) => {
   const [spellName, setSpellName] = useState(null);

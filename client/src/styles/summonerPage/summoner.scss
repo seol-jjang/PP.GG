@@ -13,10 +13,20 @@
 
 .article {
   margin-bottom: 120px;
+  margin-top: 60px;
   padding: 40px 30px;
   border-radius: 30px;
   background-color: #fff;
-  // box-shadow: 3px 14px 10px #d8d8d86c;
+  //border: 1px solid #d8d8d86c;
+  //box-shadow: 3px 14px 10px #d8d8d86c;
+  @include viewportName("laptop") {
+    margin-top: 0;
+    padding: 70px 20px 40px;
+    border-radius: 0;
+  }
+  @include viewportName("tablet") {
+    padding: 30px 0px;
+  }
 }
 .summoner-info {
   margin-bottom: 40px;
@@ -26,6 +36,10 @@
   section {
     display: flex;
   }
+  @include viewportName("tablet") {
+    margin-bottom: 30px;
+    padding: 0 15px;
+  }
 }
 .summoner__level {
   position: relative;
@@ -33,6 +47,11 @@
     width: 90px;
     border-radius: 30px;
     border-bottom-right-radius: 10px;
+    @include viewportName("tablet") {
+      width: 70px;
+      border-radius: 20px;
+      border-bottom-right-radius: 0;
+    }
   }
   span {
     position: absolute;
@@ -42,9 +61,14 @@
     border-radius: 10px;
     border-top-left-radius: 3px;
     background-color: white;
+    //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 3px 4px 10px #d8d8d8;
     font-size: 14px;
     color: #828282;
+    @include viewportName("tablet") {
+      font-size: 12px;
+      bottom: 5px;
+    }
   }
 }
 .summoner__name {
@@ -76,14 +100,21 @@
     font-size: 14px;
     color: #6868689a;
   }
+  @include viewportName("tablet") {
+    margin-left: 15px;
+    font-size: 15px;
+    .refresh-time {
+      font-size: 12px;
+    }
+    .refresh-btn {
+      font-size: 12px;
+      padding: 5px 0;
+      border-radius: 10px;
+    }
+  }
 }
 
 .detail-contents {
-  .info-contents {
-    display: flex;
-    margin-bottom: 20px;
-  }
-
   .more-btn {
     width: 100%;
     margin-top: 10px;

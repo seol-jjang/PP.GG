@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getChampionData } from "../../../utils/api";
-import "../../../../styles/common/championIcon.scss";
+import "../../../../styles/iconStyle/championIcon.scss";
 
 const ChampionName = ({ championId }) => {
   const [championName, setChampionName] = useState(null);

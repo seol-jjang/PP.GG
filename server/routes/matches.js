@@ -105,13 +105,13 @@ router.post("/matchData", (req, res) => {
       if (req.body.refresh) {
         fetchMatchData(newData);
       } else {
-        if (updateTime <= 1) {
+        if (updateTime > 2) {
+          fetchMatchData(newData);
+        } else {
           return res.json({
             matchData: data.matchData,
             updateDate: data.updateDate
           });
-        } else {
-          fetchMatchData(newData);
         }
       }
     } else {

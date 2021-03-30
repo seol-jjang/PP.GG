@@ -1,28 +1,55 @@
 @import "./form.scss";
 
-.champion-rotations {
+.main-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #67ac78;
+  padding-bottom: 30px;
+  a {
+    text-decoration: none;
+  }
+  .logo {
+    margin-top: 80px;
+    margin-bottom: 30px;
+    color: white;
+    font-size: 60px;
+    font-weight: 800;
+    letter-spacing: -5px;
+  }
+}
+
+.champ-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  padding: 30px;
+  @include viewportName("tablet") {
+    border-radius: 0;
+  }
+  & > div {
+    display: grid;
+    grid-template-columns: repeat(6, 70px);
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    @include viewportName("tablet") {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  li {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 50px;
-}
-.champ-list {
-    list-style: none;
-    padding: 30px;
-    border-radius: 30px;
-    background-color: #fff;
-    & > div {
-        display: grid;
-        grid-template-columns: repeat(6, 70px);
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
+    justify-content: flex-start;
+    text-align: center;
+    @include viewportName("tablet") {
+      span {
+        width: 80px;
+      }
     }
-    li {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+  }
 }

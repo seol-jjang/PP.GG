@@ -11,7 +11,7 @@ const RankInfo = ({ summonerRank }) => {
     }
   }, [summonerRank]);
 
-  if (summonerRank && emblemData) {
+  if (summonerRank && summonerRank.tier !== "unrank" && emblemData) {
     return (
       <div className="summoner__rank">
         <span className="emblem-img">
@@ -31,7 +31,7 @@ const RankInfo = ({ summonerRank }) => {
             style={{ color: `${emblemData.colorCode}` }}
           >
             {summonerRank.tier}
-            {tier.indexOf(summonerRank.tier) < 0 ? ` ${summonerRank.rank}` : ""}
+            {tier.indexOf(summonerRank.tier) < 0 ? `${summonerRank.rank}` : ""}
           </p>
         </div>
       </div>

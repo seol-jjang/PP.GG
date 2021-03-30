@@ -1,0 +1,25 @@
+$breakpoints: (
+  "mobile": (
+    max-width: 450px
+  ),
+  "small-tablet": (
+    max-width: 630px
+  ),
+  "tablet": (
+    max-width: 735px
+  ),
+  "laptop": (
+    max-width: 999px
+  ),
+  "desktop": (
+    min-width: 1000px
+  )
+);
+
+@mixin viewportName($name) {
+  @if map-has-key($breakpoints, $name) {
+    @media #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  }
+}
