@@ -40,7 +40,6 @@ const SummonerPage = () => {
     if (mounted) {
       getSummonerInfo(nickname, refresh).then(async (response) => {
         if (response.data.user) {
-          setSummonerInfo(response.data.user);
           setUpdateDate(response.data.updateDate);
           const { accountId, id } = response.data.user;
           const count = {
@@ -53,6 +52,7 @@ const SummonerPage = () => {
           ]).then(([summonerRankData, matchDetailData]) => {
             setMatchData(matchDetailData.data.matchData);
             setSummonerRank(summonerRankData.data.rankData);
+            setSummonerInfo(response.data.user);
             setIsCancelled(true);
             setRefresh(false);
           });
@@ -103,20 +103,24 @@ const SummonerPage = () => {
       btnRef.current.getBoundingClientRect().top + window.pageYOffset;
     setLoading(true);
     const newCount = {
-      min: count.min + 10,
-      max: count.max + 10
+      min: matchData.length,
+      max: matchData.length + 10
     };
     setCount({
-      min: count.min + 10,
-      max: count.max + 10
+      min: matchData.length,
+      max: matchData.length + 10
     });
     Promise.all([
       asyncUtil(getMoreMatchData(summonerInfo.accountId, newCount), 1000)
     ]).then(([matchDetailData]) => {
       setMatchData((data) => data.concat(matchDetailData.data.matchData));
+
       const after =
         btnRef.current.getBoundingClientRect().top + window.pageYOffset;
       window.scrollBy(0, before - after);
+      if (matchDetailData.data.matchData.length < 10) {
+        btnRef.current.disabled = true;
+      }
       setLoading(false);
     });
   };
@@ -133,7 +137,7 @@ const SummonerPage = () => {
             <section>
               <div className="summoner__level">
                 <img
-                  src={`http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/${summonerInfo.profileIconId}.png`}
+                  src={`${process.env.REACT_APP_DATA_API}/img/profileicon/${summonerInfo.profileIconId}.png`}
                   alt="profileIcon"
                 />
                 <span>{summonerInfo.summonerLevel}</span>
@@ -169,34 +173,42 @@ const SummonerPage = () => {
             )}
             {!refresh && (
               <>
-                <section className="info-contents">
-                  <MatchAvgData matchData={matchData} count={count} />
-                </section>
-                <section className="match-contents">
-                  <MatchList matchData={matchData} />
-                  {matchData.length >= 50 ? (
-                    <button
-                      className="more-btn"
-                      onClick={onMoreDataHandle}
-                      ref={btnRef}
-                      disabled
-                    ></button>
-                  ) : (
-                    <button
-                      className="more-btn"
-                      onClick={onMoreDataHandle}
-                      ref={btnRef}
-                    >
-                      {loading ? (
-                        <span>
-                          <AiOutlineLoading3Quarters />
-                        </span>
+                {matchData.length > 0 ? (
+                  <>
+                    <section className="info-contents">
+                      <MatchAvgData matchData={matchData} />
+                    </section>
+                    <section className="match-contents">
+                      <MatchList matchData={matchData} />
+                      {matchData.length >= 50 || matchData.length <= 9 ? (
+                        <button
+                          className="more-btn"
+                          onClick={onMoreDataHandle}
+                          ref={btnRef}
+                          disabled
+                        ></button>
                       ) : (
-                        <>더보기</>
+                        <button
+                          className="more-btn"
+                          onClick={onMoreDataHandle}
+                          ref={btnRef}
+                        >
+                          {loading ? (
+                            <span>
+                              <AiOutlineLoading3Quarters />
+                            </span>
+                          ) : (
+                            <>더보기</>
+                          )}
+                        </button>
                       )}
-                    </button>
-                  )}
-                </section>
+                    </section>
+                  </>
+                ) : (
+                  <section className="match-contents">
+                    기록된 전적이 없습니다.
+                  </section>
+                )}
               </>
             )}
           </div>

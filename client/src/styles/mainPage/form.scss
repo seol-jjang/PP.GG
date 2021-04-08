@@ -3,19 +3,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 3px 4px 10px #e9e9e9;
   @include viewportName("tablet") {
     width: 100%;
-    padding: 0 50px;
-  }
-  @include viewportName("mobile") {
-    padding: 0;
   }
   .search-input {
     width: 100%;
-    height: 50px;
+    height: 45px;
     font-size: 17px;
     padding: 10px 15px;
-    border-radius: 5px;
     outline: 0;
     border: 2px solid white;
     //border: 2px solid #607a69;
@@ -27,15 +26,19 @@
     cursor: pointer;
     border: 0;
     outline: 0;
-    height: 50px;
+    height: 45px;
     padding: 10px 15px;
-    margin-left: -10px;
+    display: flex;
+    align-items: center;
     border-radius: 5px;
-    background-color: #67ac78;
+    background-color: #3352db;
     border: 2px solid white;
     font-size: 20px;
     font-weight: bold;
     color: white;
+    &:hover {
+      background-color: #233daf;
+    }
     @include viewportName("mobile") {
       border-radius: 0;
     }

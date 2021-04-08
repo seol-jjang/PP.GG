@@ -3,7 +3,7 @@ import { getKDARatio } from "../../utils/gameUtil";
 import ChampionIcon from "../common/championIcon/ChampionIcon";
 import ChampionName from "../common/championName/ChampionName";
 
-const MatchAvgData = ({ matchData, count }) => {
+const MatchAvgData = ({ matchData }) => {
   const [winCount, setWinCount] = useState(null);
   const [kdaCount, setKdaCount] = useState(null);
   const [champStats, setChampStats] = useState(null);
@@ -92,7 +92,7 @@ const MatchAvgData = ({ matchData, count }) => {
         <li
           className="rate-win"
           key={index}
-          style={{ width: `calc(100% / ${count.max})` }}
+          style={{ width: `calc(100% / ${matchData.length})` }}
         ></li>
       );
     }
@@ -126,21 +126,23 @@ const MatchAvgData = ({ matchData, count }) => {
           <div className="rate">
             <div className="rate__total">
               <p>
-                {count.max}전 {winCount}승 {count.max - winCount}패
+                {matchData.length}전 {winCount}승 {matchData.length - winCount}
+                패
               </p>
               <p className="winning-rate">
-                {Math.round((winCount / count.max) * 100)}%
+                {Math.round((winCount / matchData.length) * 100)}%
               </p>
             </div>
             <ul className="rate__bar">{renderRate}</ul>
             <div className="lately-kda">
               <p>
-                <span>{(kdaCount.kills / count.max).toFixed(1)}</span> /
+                <span>{(kdaCount.kills / matchData.length).toFixed(1)}</span> /
                 <span className="death">
                   {" "}
-                  {(kdaCount.deaths / count.max).toFixed(1)}
+                  {(kdaCount.deaths / matchData.length).toFixed(1)}
                 </span>{" "}
-                / <span>{(kdaCount.assists / count.max).toFixed(1)}</span>
+                /{" "}
+                <span>{(kdaCount.assists / matchData.length).toFixed(1)}</span>
               </p>
               <p className="kda">
                 {getKDARatio(kdaCount.kills, kdaCount.deaths, kdaCount.assists)}{" "}

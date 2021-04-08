@@ -39,18 +39,16 @@ export const getMoreMatchData = (accountId, count) => {
 
 export const getChampionData = () => {
   return axios.get(
-    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/champion.json"
+    `${process.env.REACT_APP_DATA_API}/data/ko_KR/champion.json`
   );
 };
 
 export const getSummonerSpell = () => {
   return axios.get(
-    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/en_US/summoner.json"
+    `${process.env.REACT_APP_DATA_API}/data/en_US/summoner.json`
   );
 };
 
 export const getItem = () => {
-  return axios.get(
-    "http://ddragon.leagueoflegends.com/cdn/11.5.1/data/ko_KR/item.json"
-  );
+  return axios.get(`${process.env.REACT_APP_DATA_API}/data/ko_KR/item.json`);
 };

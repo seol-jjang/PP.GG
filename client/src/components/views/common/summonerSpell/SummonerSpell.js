@@ -24,7 +24,7 @@ const SummonerSpell = ({ spellId }) => {
       {spellName && (
         <span className="spell-icon">
           <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/spell/${spellName}.png`}
+            src={`${process.env.REACT_APP_DATA_API}/img/spell/${spellName}.png`}
             alt={spellName}
           />
         </span>

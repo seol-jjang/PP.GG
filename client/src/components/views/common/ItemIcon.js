@@ -18,7 +18,7 @@ const ItemIcon = ({ stats }) => {
     ) : (
       <span className="item-bg" key={index}>
         <img
-          src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/item/${item}.png`}
+          src={`${process.env.REACT_APP_DATA_API}/img/item/${item}.png`}
           alt={`item_${item}`}
         />
       </span>

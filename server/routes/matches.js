@@ -7,6 +7,8 @@ router.post("/matchData", (req, res) => {
   const fetchMatchData = (newData) => {
     const getMatchDetail = async (matches) => {
       const matchDetailData = [];
+      const date = new Date();
+
       await Promise.all(
         matches.map(async (match) => {
           await axios
@@ -35,21 +37,25 @@ router.post("/matchData", (req, res) => {
                   ? true
                   : false;
 
-              matchDetailData.push({
-                win: win,
-                queue: match.queue,
-                participantId: participantId,
-                participant: participants.find(
-                  (participant) => participant.participantId === participantId
-                ),
-                participants: participants,
-                participantIdentities: participantIdentities,
-                gameId: gameId,
-                gameDuration: gameDuration,
-                teamId: teamId,
-                teams: teams,
-                timestamp: match.timestamp
-              });
+              const lastDate = new Date(match.timestamp);
+
+              if (lastDate.getFullYear() === date.getFullYear()) {
+                matchDetailData.push({
+                  win: win,
+                  queue: match.queue,
+                  participantId: participantId,
+                  participant: participants.find(
+                    (participant) => participant.participantId === participantId
+                  ),
+                  participants: participants,
+                  participantIdentities: participantIdentities,
+                  gameId: gameId,
+                  gameDuration: gameDuration,
+                  teamId: teamId,
+                  teams: teams,
+                  timestamp: match.timestamp
+                });
+              }
             });
         })
       );
@@ -69,27 +75,29 @@ router.post("/matchData", (req, res) => {
               matchData: matchDetailData,
               updateDate: date
             };
-            return Match.findOneAndReplace(
+            Match.findOneAndReplace(
               { accountId: req.body.accountId },
               newMatchData,
               { returnNewDocument: true }
             ).then((response) => {
               return res.status(200).json({
-                matchData: response.matchData,
-                updateDate: response.date
+                matchData: newMatchData.matchData,
+                updateDate: date
+              });
+            });
+          } else {
+            const match = new Match({
+              accountId: req.body.accountId,
+              matchData: matchDetailData,
+              updateDate: date
+            });
+            match.save((err, doc) => {
+              return res.status(200).json({
+                matchData: matchDetailData,
+                updateDate: date
               });
             });
           }
-          const match = new Match({
-            accountId: req.body.accountId,
-            matchData: matchDetailData,
-            updateDate: date
-          });
-          match.save((err, doc) => {});
-          return res.status(200).json({
-            matchData: matchDetailData,
-            updateDate: date
-          });
         });
       });
   };
@@ -99,13 +107,12 @@ router.post("/matchData", (req, res) => {
     if (data) {
       newData = true;
       const date = Date.now();
-      const updateTime = Math.floor(
-        (date - data.updateDate) / 1000 / 60 / 60 / 24
-      );
+      const updateTime = Math.floor((date - data.updateDate) / 1000 / 60 / 60);
       if (req.body.refresh) {
         fetchMatchData(newData);
       } else {
-        if (updateTime > 2) {
+        console.log("match: ", updateTime);
+        if (updateTime > 48) {
           fetchMatchData(newData);
         } else {
           return res.json({
@@ -124,6 +131,9 @@ router.post("/matchData", (req, res) => {
 router.post("/moreMatchData", (req, res) => {
   const getMatchDetail = async (matches) => {
     const matchDetailData = [];
+    const date = new Date();
+    const lastGameDate = new Date(matches[matches.length - 1].timestamp);
+
     await Promise.all(
       matches.map(async (match) => {
         await axios
@@ -152,21 +162,25 @@ router.post("/moreMatchData", (req, res) => {
                 ? true
                 : false;
 
-            matchDetailData.push({
-              win: win,
-              queue: match.queue,
-              participantId: participantId,
-              participant: participants.find(
-                (participant) => participant.participantId === participantId
-              ),
-              participants: participants,
-              participantIdentities: participantIdentities,
-              gameId: gameId,
-              gameDuration: gameDuration,
-              teamId: teamId,
-              teams: teams,
-              timestamp: match.timestamp
-            });
+            const lastDate = new Date(match.timestamp);
+
+            if (lastDate.getFullYear() === date.getFullYear()) {
+              matchDetailData.push({
+                win: win,
+                queue: match.queue,
+                participantId: participantId,
+                participant: participants.find(
+                  (participant) => participant.participantId === participantId
+                ),
+                participants: participants,
+                participantIdentities: participantIdentities,
+                gameId: gameId,
+                gameDuration: gameDuration,
+                teamId: teamId,
+                teams: teams,
+                timestamp: match.timestamp
+              });
+            }
           });
       })
     );

@@ -1,6 +1,6 @@
 .info-contents {
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 10px;
   border-radius: 30px;
   background-color: #f5f5f5;
   display: flex;
@@ -65,7 +65,6 @@
   }
 
   @include viewportName("laptop") {
-    padding: 10px;
     flex-direction: column;
     .rate {
       margin-bottom: 10px;

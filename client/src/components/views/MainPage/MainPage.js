@@ -20,9 +20,9 @@ const MainPage = () => {
   return (
     <>
       <header className="main-header">
-        <Link to="/">
-          <h2 className="logo">PP.GG</h2>
-        </Link>
+        <h2 className="logo">
+          <Link to="/">PP.GG</Link>
+        </h2>
         <SearchInput />
       </header>
       {champRotations && (

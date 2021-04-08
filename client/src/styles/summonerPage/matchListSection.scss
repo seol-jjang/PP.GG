@@ -1,6 +1,6 @@
 .matchlist {
   list-style: none;
-  padding: 20px;
+  padding: 10px;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -159,7 +159,6 @@
   }
 
   @include viewportName("laptop") {
-    padding: 10px;
     .matchlist__game .champion-icon {
       width: 50px;
     }
@@ -181,6 +180,13 @@
   }
   @include viewportName("mobile") {
     .matchlist__game {
+      .game-setting div .summoner-setting {
+        margin-left: 5px;
+        .summoner-spells {
+          display: flex;
+          flex-direction: column;
+        }
+      }
       .summoner-gameInfo {
         display: none;
       }

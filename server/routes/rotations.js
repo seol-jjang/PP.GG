@@ -32,21 +32,32 @@ router.get("/championRotations", (req, res) => {
         (date - data[data.length - 1].updateDate) / 1000 / 60 / 60 / 24
       );
       if (toDay.getDay() === 2) {
-        if (updateDate === 2) {
-          if (updateTime <= 0) {
-            return res.json({
-              rotationList: data[data.length - 1].rotationList
-            });
-          } else {
-            getChampionIds();
-          }
+        if (updateDate === 2 && updateTime < 1) {
+          return res.json({
+            rotationList: data[data.length - 1].rotationList
+          });
         } else {
           getChampionIds();
         }
+        // if (updateDate === 2) {
+        //   if (updateTime <= 0) {
+        //     return res.json({
+        //       rotationList: data[data.length - 1].rotationList
+        //     });
+        //   } else {
+        //     getChampionIds();
+        //   }
+        // } else {
+        //   getChampionIds();
+        // }
       } else {
-        return res.json({
-          rotationList: data[data.length - 1].rotationList
-        });
+        if (updateTime <= 6) {
+          return res.json({
+            rotationList: data[data.length - 1].rotationList
+          });
+        } else {
+          getChampionIds();
+        }
       }
     } else {
       getChampionIds();

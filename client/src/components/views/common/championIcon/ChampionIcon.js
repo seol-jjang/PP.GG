@@ -26,7 +26,7 @@ const ChampionIcon = ({ championId }) => {
       {championName && (
         <span className="champion-icon">
           <img
-            src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/champion/${championName}.png`}
+            src={`${process.env.REACT_APP_DATA_API}/img/champion/${championName}.png`}
             alt={championName}
           />
         </span>

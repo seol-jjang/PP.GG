@@ -4,7 +4,6 @@ import {
   getGameDuration,
   getKDARatio,
   getQueueType,
-  getTierAvg,
   getKillinvolvement,
   getKillstreak,
   getTimeStamp
@@ -99,7 +98,7 @@ const MatchItem = ({ match }) => {
         ) : (
           <span className="item-bg ward">
             <img
-              src={`http://ddragon.leagueoflegends.com/cdn/11.5.1/img/item/${participant.stats.item6}.png`}
+              src={`${process.env.REACT_APP_DATA_API}/img/item/${participant.stats.item6}.png`}
               alt={`item_${participant.stats.item6}`}
             />
           </span>
