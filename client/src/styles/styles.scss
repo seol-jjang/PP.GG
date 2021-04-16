@@ -1,6 +1,11 @@
 @import "./common/mixins.scss";
 @import "./common/responseMixin.scss";
 @import "./common/variables.scss";
+@import "./common/functions.scss";
+@import "./iconStyle/championIcon.scss";
+@import "./iconStyle/itemIcon.scss";
+@import "./iconStyle/spellIcon.scss";
 @import "./main.scss";
+@import "./loading.scss";
 @import "./mainPage/mainPage.scss";
 @import "./summonerPage/summoner.scss";

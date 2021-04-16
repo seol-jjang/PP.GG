@@ -31,7 +31,11 @@ const RankInfo = ({ summonerRank }) => {
             style={{ color: `${emblemData.colorCode}` }}
           >
             {summonerRank.tier}
-            {tier.indexOf(summonerRank.tier) < 0 ? `${summonerRank.rank}` : ""}
+            <span>
+              {tier.indexOf(summonerRank.tier) < 0
+                ? `${summonerRank.rank}`
+                : ""}
+            </span>
           </p>
         </div>
       </div>

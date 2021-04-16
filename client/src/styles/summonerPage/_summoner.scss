@@ -12,33 +12,28 @@
 }
 
 .article {
-  margin-bottom: 120px;
-  margin-top: 60px;
-  padding: 40px 30px;
-  border-radius: 30px;
-  background-color: #fff;
   //border: 1px solid #d8d8d86c;
-  //box-shadow: 3px 14px 10px #d8d8d86c;
-  @include viewportName("laptop") {
-    margin-top: 0;
-    padding: 70px 20px 40px;
-    border-radius: 0;
-  }
-  @include viewportName("tablet") {
-    padding: 30px 0px;
-  }
 }
 .summoner-info {
-  margin-bottom: 40px;
+  @include section-panel;
+  margin-top: 60px;
+  margin-bottom: 25px;
+  padding: 40px 25px;
+  padding-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   section {
     display: flex;
   }
+  @include viewportName("laptop") {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 25px 20px 20px;
+  }
   @include viewportName("tablet") {
-    margin-bottom: 30px;
-    padding: 0 15px;
+    border-radius: 0;
+    padding: 30px 15px 15px;
   }
 }
 .summoner__level {
@@ -47,11 +42,6 @@
     width: 90px;
     border-radius: 30px;
     border-bottom-right-radius: 10px;
-    @include viewportName("tablet") {
-      width: 70px;
-      border-radius: 20px;
-      border-bottom-right-radius: 0;
-    }
   }
   span {
     position: absolute;
@@ -61,13 +51,17 @@
     border-radius: 10px;
     border-top-left-radius: 3px;
     background-color: white;
-    //box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 3px 4px 10px #d8d8d8;
     font-size: 14px;
-    color: #828282;
-    @include viewportName("tablet") {
+  }
+  @include viewportName("tablet") {
+    img {
+      width: 70px;
+      border-radius: 20px;
+      border-bottom-right-radius: 0;
+    }
+    span {
       font-size: 12px;
-      bottom: 5px;
     }
   }
 }
@@ -77,27 +71,32 @@
   justify-content: space-around;
   margin-left: 20px;
   h2 {
-    font-weight: 800;
+    @include bold-text($size: 25px);
   }
   .refresh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     outline: none;
     border: none;
     width: 100px;
     padding: 7px 0;
     border-radius: 15px;
-    background-color: #1e53bf;
+    background-color: $main-color;
     font-size: 14px;
     color: white;
-    span {
-      svg {
-        animation: rotationLoading 1s linear infinite;
+    @include loading-circle(15px, #fff, $main-color);
+    &:hover {
+      background-color: $deep-main-color;
+      .loader::after {
+        background-color: $deep-main-color;
       }
     }
   }
   .refresh-time {
+    @include gray-text(14px);
     margin-top: 5px;
-    font-size: 14px;
     color: #6868689a;
   }
   @include viewportName("tablet") {
@@ -108,6 +107,7 @@
     }
     .refresh-btn {
       font-size: 12px;
+      margin-top: 3px;
       padding: 5px 0;
       border-radius: 10px;
     }
@@ -115,23 +115,24 @@
 }
 
 .detail-contents {
+  margin-bottom: 100px;
   .more-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     width: 100%;
     margin-top: 10px;
-    cursor: pointer;
-    outline: 0;
-    border: 1px solid rgba(94, 94, 94, 0.18);
-    border-radius: 15px;
     padding: 15px 10px;
+    outline: 0;
+    border: 1px solid rgba(70, 77, 82, 0.082);
+    border-radius: 15px;
     background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.024) 1px 10px 20px;
     font-size: 16px;
     font-weight: 600;
     color: rgba(94, 94, 94, 0.66);
-    span {
-      svg {
-        animation: rotationLoading 1s linear infinite;
-      }
-    }
+    @include loading-circle(15px, #5e5e5ea8, #fff);
     &:disabled {
       display: none;
       cursor: default;

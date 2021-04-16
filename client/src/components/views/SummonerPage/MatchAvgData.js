@@ -86,17 +86,14 @@ const MatchAvgData = ({ matchData }) => {
     }
   }, [matchData]);
 
-  const renderRate = matchData.map((match, index) => {
-    if (match.win) {
-      return (
-        <li
-          className="rate-win"
-          key={index}
-          style={{ width: `calc(100% / ${matchData.length})` }}
-        ></li>
-      );
-    }
-  });
+  const renderRate = () => {
+    return (
+      <div
+        className="rate-win"
+        style={{ width: `${Math.round((winCount / matchData.length) * 100)}%` }}
+      ></div>
+    );
+  };
 
   const renderChampionStats = () => {
     const sliceData = champStats.slice(0, 3);
@@ -112,7 +109,7 @@ const MatchAvgData = ({ matchData }) => {
                 {champ.totalWin}승 {champ.matchCount - champ.totalWin}패
               </p>
             </div>
-            <p className="kda">{champ.kdaRatio} 평점</p>
+            <p className="kda-ratio">{champ.kdaRatio} 평점</p>
           </div>
         </li>
       );
@@ -133,7 +130,7 @@ const MatchAvgData = ({ matchData }) => {
                 {Math.round((winCount / matchData.length) * 100)}%
               </p>
             </div>
-            <ul className="rate__bar">{renderRate}</ul>
+            <div className="rate__bar">{renderRate()}</div>
             <div className="lately-kda">
               <p>
                 <span>{(kdaCount.kills / matchData.length).toFixed(1)}</span> /
@@ -144,7 +141,7 @@ const MatchAvgData = ({ matchData }) => {
                 /{" "}
                 <span>{(kdaCount.assists / matchData.length).toFixed(1)}</span>
               </p>
-              <p className="kda">
+              <p className="kda-ratio">
                 {getKDARatio(kdaCount.kills, kdaCount.deaths, kdaCount.assists)}{" "}
                 : 1
               </p>

@@ -23,10 +23,6 @@ const SummonerPage = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState({
-    min: 0,
-    max: 10
-  });
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined
@@ -102,16 +98,12 @@ const SummonerPage = () => {
     const before =
       btnRef.current.getBoundingClientRect().top + window.pageYOffset;
     setLoading(true);
-    const newCount = {
+    const count = {
       min: matchData.length,
       max: matchData.length + 10
     };
-    setCount({
-      min: matchData.length,
-      max: matchData.length + 10
-    });
     Promise.all([
-      asyncUtil(getMoreMatchData(summonerInfo.accountId, newCount), 1000)
+      asyncUtil(getMoreMatchData(summonerInfo.accountId, count), 1000)
     ]).then(([matchDetailData]) => {
       setMatchData((data) => data.concat(matchDetailData.data.matchData));
 
@@ -126,93 +118,78 @@ const SummonerPage = () => {
   };
 
   if (!isCancelled) {
-    return <section>{/* //<LoadingPage /> */}</section>;
+    return <section>{<LoadingPage />}</section>;
   }
   if (summonerInfo !== null) {
     return (
       <div className="contents">
-        <header></header>
-        <article className="article">
-          <header className="summoner-info">
-            <section>
-              <div className="summoner__level">
-                <img
-                  src={`${process.env.REACT_APP_DATA_API}/img/profileicon/${summonerInfo.profileIconId}.png`}
-                  alt="profileIcon"
-                />
-                <span>{summonerInfo.summonerLevel}</span>
-              </div>
-              <div className="summoner__name">
-                <h2>{summonerInfo.name}</h2>
-                <p className="refresh-time">
-                  마지막 업데이트: {getTimeStamp(updateDate)}
-                </p>
+        <header className="summoner-info">
+          <section>
+            <div className="summoner__level">
+              <img
+                src={`${process.env.REACT_APP_DATA_API}/img/profileicon/${summonerInfo.profileIconId}.png`}
+                alt="profileIcon"
+              />
+              <span>{summonerInfo.summonerLevel}</span>
+            </div>
+            <div className="summoner__name">
+              <h2>{summonerInfo.name}</h2>
+              <p className="refresh-time">
+                마지막 업데이트: {getTimeStamp(updateDate)}
+              </p>
 
-                <button className="refresh-btn" onClick={refreshHandle}>
-                  {refresh ? (
-                    <span>
-                      <AiOutlineLoading3Quarters />
-                    </span>
-                  ) : (
-                    <>전적 갱신</>
-                  )}
-                </button>
-              </div>
+              <button className="refresh-btn" onClick={refreshHandle}>
+                {refresh ? <div className="loader"></div> : <>전적 갱신</>}
+              </button>
+            </div>
+          </section>
+          {windowSize.width >= 530 &&
+            !refresh &&
+            summonerRank !== undefined && (
+              <RankInfo summonerRank={summonerRank} />
+            )}
+        </header>
+        <div className="detail-contents">
+          {windowSize.width < 530 && !refresh && summonerRank !== undefined && (
+            <section className="rank-contents">
+              <RankInfo summonerRank={summonerRank} />
             </section>
-            {windowSize.width >= 530 &&
-              !refresh &&
-              summonerRank !== undefined && (
-                <RankInfo summonerRank={summonerRank} />
-              )}
-          </header>
-          <div className="detail-contents">
-            {windowSize.width < 530 && !refresh && summonerRank !== undefined && (
-              <section className="rank-contents">
-                <RankInfo summonerRank={summonerRank} />
-              </section>
-            )}
-            {!refresh && (
-              <>
-                {matchData.length > 0 ? (
-                  <>
-                    <section className="info-contents">
-                      <MatchAvgData matchData={matchData} />
-                    </section>
-                    <section className="match-contents">
-                      <MatchList matchData={matchData} />
-                      {matchData.length >= 50 || matchData.length <= 9 ? (
-                        <button
-                          className="more-btn"
-                          onClick={onMoreDataHandle}
-                          ref={btnRef}
-                          disabled
-                        ></button>
-                      ) : (
-                        <button
-                          className="more-btn"
-                          onClick={onMoreDataHandle}
-                          ref={btnRef}
-                        >
-                          {loading ? (
-                            <span>
-                              <AiOutlineLoading3Quarters />
-                            </span>
-                          ) : (
-                            <>더보기</>
-                          )}
-                        </button>
-                      )}
-                    </section>
-                  </>
-                ) : (
-                  <section className="match-contents">
-                    기록된 전적이 없습니다.
+          )}
+          {!refresh && (
+            <>
+              {matchData.length > 0 ? (
+                <>
+                  <section className="info-contents">
+                    <MatchAvgData matchData={matchData} />
                   </section>
-                )}
-              </>
-            )}
-          </div>
-        </article>
+                  <section className="match-contents">
+                    <MatchList matchData={matchData} />
+                    {matchData.length >= 50 || matchData.length <= 9 ? (
+                      <button
+                        className="more-btn"
+                        onClick={onMoreDataHandle}
+                        ref={btnRef}
+                        disabled
+                      ></button>
+                    ) : (
+                      <button
+                        className="more-btn"
+                        onClick={onMoreDataHandle}
+                        ref={btnRef}
+                      >
+                        {loading ? <div className="loader"></div> : <>더보기</>}
+                      </button>
+                    )}
+                  </section>
+                </>
+              ) : (
+                <section className="match-contents">
+                  기록된 전적이 없습니다.
+                </section>
+              )}
+            </>
+          )}
+        </div>
       </div>
     );
   } else {

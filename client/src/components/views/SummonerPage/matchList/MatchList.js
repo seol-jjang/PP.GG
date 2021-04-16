@@ -5,7 +5,7 @@ const MatchList = ({ matchData }) => {
   return (
     <>
       <ul className="matchlist">
-        {matchData.length !== 0 &&
+        {matchData.length > 0 &&
           matchData.map((match, index) => {
             return (
               <li className="matchlist__game" key={index}>
