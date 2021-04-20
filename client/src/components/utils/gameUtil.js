@@ -165,7 +165,9 @@ export const getKillinvolvement = (participants, participant) => {
     }
   }, 0);
   const playerKA = participant.stats.kills + participant.stats.assists;
-
+  if (totalKills === 0) {
+    return 0;
+  }
   return ((playerKA / totalKills) * 100).toFixed(0);
 };
 

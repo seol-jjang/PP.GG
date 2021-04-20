@@ -1,0 +1,74 @@
+.dark-mode {
+  .logo a {
+    color: white;
+  }
+  .form-container {
+    background-color: $dark-gray-color;
+    box-shadow: none;
+    .search-input {
+      color: white;
+      background-color: $dark-gray-color;
+      &::placeholder {
+        color: white;
+      }
+    }
+    button[type="submit"] {
+      border: 2px solid $dark-gray-color;
+    }
+  }
+  .form-sm button[type="submit"] {
+    color: white;
+  }
+  .header {
+    background-color: #050505;
+  }
+
+  .summoner-info,
+  .rank-contents,
+  .matchlist__game,
+  .rate,
+  .info-contents .champion-stats li,
+  .detail-contents .more-btn {
+    background-color: $dark-gray-color;
+  }
+  .summoner__name h2,
+  .summoner__rank .league-point,
+  .lately-kda span,
+  .winning-rate,
+  .info-contents .kda-ratio,
+  .matchlist .sub-text,
+  .matchlist__game .kda .killstreak,
+  .matchlist__game .kda__KDA span,
+  .matchlist__game .kda__ratio span {
+    color: white;
+  }
+
+  .summoner__name .refresh-time,
+  .detail-contents .more-btn,
+  .summoner__rank .rank-info,
+  .info-contents .rate__total,
+  .info-contents .lately-kda,
+  .matchlist .champion-name,
+  .matchlist__game .kda p,
+  .matchlist__game .summoner-gameInfo {
+    color: $dark-font-gray;
+  }
+  .summoner__level span {
+    background-color: $dark-gray-color;
+    box-shadow: 3px 4px 10px rgb(31, 31, 31);
+  }
+
+  .info-contents .rate__bar {
+    background-color: $background-color-dark;
+  }
+
+  .matchlist__game .game-info .win {
+    color: $dark-main-color;
+  }
+  .matchlist__game .kda .death {
+    color: $font-red;
+  }
+  .detail-contents .more-btn {
+    @include loading-circle(15px, white, $dark-gray-color);
+  }
+}

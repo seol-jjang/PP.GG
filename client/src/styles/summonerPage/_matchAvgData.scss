@@ -18,7 +18,6 @@
   .kda-ratio {
     @include mid-text;
   }
-
   .rate {
     @include section-panel;
     display: flex;
@@ -48,7 +47,7 @@
       }
     }
     .rate-win {
-      background-color: $font-blue;
+      background-color: $main-color;
     }
   }
   .rate__total,
@@ -58,7 +57,7 @@
     color: $font-gray;
   }
   .rate__total .winning-rate {
-    color: #bf1e1e;
+    color: $font-red;
   }
   .lately-kda {
     p {
@@ -68,7 +67,7 @@
       @include mid-text($size: 14px);
     }
     .death {
-      color: #bf1e1e;
+      color: $font-red;
     }
   }
 

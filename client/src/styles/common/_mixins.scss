@@ -43,7 +43,7 @@
 @mixin loading-circle(
   $size: 120px,
   $color: $main-color,
-  $bg-color: $background-white
+  $bg-color: $background-color-light
 ) {
   .loader {
     position: relative;

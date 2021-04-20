@@ -11,3 +11,7 @@
     color: $main-color;
   }
 }
+
+.dark-mode .loading-section {
+  @include loading-circle($bg-color: $background-color-dark);
+}

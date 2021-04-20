@@ -1,0 +1,27 @@
+.header {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: $main-color;
+  box-shadow: rgba(0, 0, 0, 0.024) 1px 10px 20px;
+  transition: top 0.1s ease-in-out;
+  @include viewportName("mobile") {
+    padding: 10px;
+    .logo {
+      display: none;
+    }
+    .form-sm {
+      width: 100%;
+    }
+  }
+}
+
+.header-up {
+  top: -60px;
+}

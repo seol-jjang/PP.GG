@@ -13,6 +13,7 @@ import RankInfo from "./RankInfo";
 import MatchList from "./matchList/MatchList";
 import MatchAvgData from "./MatchAvgData";
 import LoadingPage from "../common/loading/LoadingPage";
+import Header from "../Header/Header";
 
 const SummonerPage = () => {
   const btnRef = useRef();
@@ -117,83 +118,97 @@ const SummonerPage = () => {
     });
   };
 
-  if (!isCancelled) {
+  if (!isCancelled && summonerInfo === null) {
     return <section>{<LoadingPage />}</section>;
   }
   if (summonerInfo !== null) {
     return (
-      <div className="contents">
-        <header className="summoner-info">
-          <section>
-            <div className="summoner__level">
-              <img
-                src={`${process.env.REACT_APP_DATA_API}/img/profileicon/${summonerInfo.profileIconId}.png`}
-                alt="profileIcon"
-              />
-              <span>{summonerInfo.summonerLevel}</span>
-            </div>
-            <div className="summoner__name">
-              <h2>{summonerInfo.name}</h2>
-              <p className="refresh-time">
-                마지막 업데이트: {getTimeStamp(updateDate)}
-              </p>
+      <>
+        <Header />
+        <div className="contents">
+          <header className="summoner-info">
+            <section>
+              <div className="summoner__level">
+                <img
+                  src={`${process.env.REACT_APP_DATA_API}/img/profileicon/${summonerInfo.profileIconId}.png`}
+                  alt="profileIcon"
+                />
+                <span>{summonerInfo.summonerLevel}</span>
+              </div>
+              <div className="summoner__name">
+                <h2>{summonerInfo.name}</h2>
+                <p className="refresh-time">
+                  마지막 업데이트: {getTimeStamp(updateDate)}
+                </p>
 
-              <button className="refresh-btn" onClick={refreshHandle}>
-                {refresh ? <div className="loader"></div> : <>전적 갱신</>}
-              </button>
-            </div>
-          </section>
-          {windowSize.width >= 530 &&
-            !refresh &&
-            summonerRank !== undefined && (
-              <RankInfo summonerRank={summonerRank} />
-            )}
-        </header>
-        <div className="detail-contents">
-          {windowSize.width < 530 && !refresh && summonerRank !== undefined && (
-            <section className="rank-contents">
-              <RankInfo summonerRank={summonerRank} />
+                <button className="refresh-btn" onClick={refreshHandle}>
+                  {refresh ? <div className="loader"></div> : <>전적 갱신</>}
+                </button>
+              </div>
             </section>
-          )}
-          {!refresh && (
-            <>
-              {matchData.length > 0 ? (
-                <>
-                  <section className="info-contents">
-                    <MatchAvgData matchData={matchData} />
-                  </section>
-                  <section className="match-contents">
-                    <MatchList matchData={matchData} />
-                    {matchData.length >= 50 || matchData.length <= 9 ? (
-                      <button
-                        className="more-btn"
-                        onClick={onMoreDataHandle}
-                        ref={btnRef}
-                        disabled
-                      ></button>
-                    ) : (
-                      <button
-                        className="more-btn"
-                        onClick={onMoreDataHandle}
-                        ref={btnRef}
-                      >
-                        {loading ? <div className="loader"></div> : <>더보기</>}
-                      </button>
-                    )}
-                  </section>
-                </>
-              ) : (
-                <section className="match-contents">
-                  기록된 전적이 없습니다.
-                </section>
+            {windowSize.width >= 530 &&
+              !refresh &&
+              summonerRank !== undefined && (
+                <RankInfo summonerRank={summonerRank} />
               )}
-            </>
-          )}
+          </header>
+          <div className="detail-contents">
+            {windowSize.width < 530 && !refresh && summonerRank !== undefined && (
+              <section className="rank-contents">
+                <RankInfo summonerRank={summonerRank} />
+              </section>
+            )}
+            {!refresh && (
+              <>
+                {matchData.length > 0 ? (
+                  <>
+                    <section className="info-contents">
+                      <MatchAvgData matchData={matchData} />
+                    </section>
+                    <section className="match-contents">
+                      <MatchList matchData={matchData} />
+                      {matchData.length >= 50 || matchData.length <= 9 ? (
+                        <button
+                          className="more-btn"
+                          onClick={onMoreDataHandle}
+                          ref={btnRef}
+                          disabled
+                        ></button>
+                      ) : (
+                        <button
+                          className="more-btn"
+                          onClick={onMoreDataHandle}
+                          ref={btnRef}
+                        >
+                          {loading ? (
+                            <div className="loader"></div>
+                          ) : (
+                            <>더보기</>
+                          )}
+                        </button>
+                      )}
+                    </section>
+                  </>
+                ) : (
+                  <section className="match-contents">
+                    최근 기록된 전적이 없습니다.
+                  </section>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
-    return <section>일치하는 소환사가 없습니다...</section>;
+    return (
+      <>
+        <Header />
+        <section className="not-match">
+          <p>등록되지 않은 소환사입니다. 오타를 확인 후 다시 검색해주세요.</p>
+        </section>
+      </>
+    );
   }
 };
 

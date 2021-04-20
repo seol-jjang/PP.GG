@@ -1,22 +1,13 @@
-@import "./form.scss";
-
 .main-header {
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   // background-color: #67ac78;
   padding-bottom: 30px;
-  .logo {
-    margin-top: 80px;
-    margin-bottom: 30px;
-    font-size: 60px;
-    font-weight: 800;
-    letter-spacing: -5px;
-    a {
-      text-decoration: none;
-      color: $main-color;
-    }
+  .form-container {
+    margin-top: 30px;
   }
 }
 

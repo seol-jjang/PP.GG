@@ -44,10 +44,10 @@
     margin: 5px 0;
   }
   .win {
-    color: $font-blue;
+    color: $main-color;
   }
   .lose {
-    color: #bf1e1e;
+    color: $font-red;
   }
 }
 .matchlist__game .game-setting {
@@ -71,7 +71,7 @@
       @include bold-text($size: 15px);
     }
     .death {
-      color: #bf1e1e;
+      color: $font-red;
     }
   }
   &__ratio {
@@ -83,7 +83,7 @@
   }
   .killstreak {
     padding: 3px 10px;
-    background-color: #db3030;
+    background-color: $font-red;
     border-radius: 30px;
     font-size: 13px;
     font-weight: 800;
@@ -103,7 +103,7 @@
     margin: 0 2px;
   }
   .kill-involvement {
-    color: #db3030;
+    color: $font-red;
     font-weight: 800;
   }
 }
@@ -136,7 +136,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       text-decoration: none;
-      color: #2b2b2b;
       &:hover {
         cursor: pointer;
         text-decoration: underline;
