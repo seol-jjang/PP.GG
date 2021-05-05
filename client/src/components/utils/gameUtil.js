@@ -28,68 +28,55 @@ export const getQueueType = (queueId) => {
 };
 
 export const getRankEmblem = (tier) => {
-  switch (tier) {
-    case "IRON":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Iron.png",
-        colorCode: "#524f4c"
-      };
-    case "BRONZE":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Bronze.png",
-        colorCode: "#915639"
-      };
-    case "SILVER":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Silver.png",
-        colorCode: "#5b6f74"
-      };
-    case "GOLD":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Gold.png",
-        colorCode: "#caa14a"
-      };
-    case "PLATINUM":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Platinum.png",
-        colorCode: "#1c8059"
-      };
-    case "DIAMOND":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Diamond.png",
-        colorCode: "#4c649f"
-      };
-    case "MASTER":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Master.png",
-        colorCode: "#6d30a0"
-      };
-    case "GRANDMASTER":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Grandmaster.png",
-        colorCode: "#bf1e1e"
-      };
-    case "CHALLENGER":
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Challenger.png",
-        colorCode: "#1e53bf"
-      };
-    default:
-      return {
-        src:
-          "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/provisional.png",
-        colorCode: "#d8d8d8"
-      };
-  }
+  const tierType = {
+    IRON: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Iron.png",
+      colorCode: "#524f4c"
+    },
+    BRONZE: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Bronze.png",
+      colorCode: "#915639"
+    },
+    SILVER: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Silver.png",
+      colorCode: "#5b6f74"
+    },
+    GOLD: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Gold.png",
+      colorCode: "#caa14a"
+    },
+    PLATINUM: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Platinum.png",
+      colorCode: "#1c8059"
+    },
+    DIAMOND: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Diamond.png",
+      colorCode: "#4c649f"
+    },
+    MASTER: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Master.png",
+      colorCode: "#6d30a0"
+    },
+    GRANDMASTER: {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/Emblem_Grandmaster.png",
+      colorCode: "#bf1e1e"
+    }
+  };
+  return (
+    tierType[tier] || {
+      src:
+        "https://ppgg.s3.ap-northeast-2.amazonaws.com/tier-emblems/provisional.png",
+      colorCode: "#d8d8d8"
+    }
+  );
 };
 
 export const getGameDuration = (gameDuration) => {

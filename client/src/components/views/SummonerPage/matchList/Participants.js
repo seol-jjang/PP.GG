@@ -10,10 +10,15 @@ const Participants = ({ participantIdentities, participants }) => {
   useEffect(() => {
     participantIdentities.map((participant, index) => {
       if (index <= 4) {
-        setFirstTeam((name) => [...name, participant.player.summonerName]);
-      } else {
-        setSecondTeam((name) => [...name, participant.player.summonerName]);
+        return setFirstTeam((name) => [
+          ...name,
+          participant.player.summonerName
+        ]);
       }
+      return setSecondTeam((name) => [
+        ...name,
+        participant.player.summonerName
+      ]);
     });
   }, []);
 

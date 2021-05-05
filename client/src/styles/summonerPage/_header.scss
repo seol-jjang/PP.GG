@@ -14,7 +14,7 @@
   @include viewportName("mobile") {
     padding: 10px;
     .logo {
-      display: none;
+      margin-right: 10px;
     }
     .form-sm {
       width: 100%;

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { asyncUtil } from "../../utils/asyncUtil";
 import { getTimeStamp } from "../../utils/gameUtil";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   getSummonerInfo,
   getSummonerRank,
@@ -29,6 +28,10 @@ const SummonerPage = () => {
     height: undefined
   });
 
+  const [searchName, setSearchName] = useState(
+    JSON.parse(localStorage.getItem("latelySearch")) || []
+  );
+
   const param = useParams();
 
   useEffect(() => {
@@ -37,6 +40,20 @@ const SummonerPage = () => {
     if (mounted) {
       getSummonerInfo(nickname, refresh).then(async (response) => {
         if (response.data.user) {
+          if (searchName.length >= 9) {
+            setSearchName(searchName.pop());
+          }
+          if (!searchName.includes(nickname)) {
+            setSearchName((prev) => [nickname, ...prev]);
+            const data = searchName;
+            data.unshift(nickname);
+            localStorage.setItem("latelySearch", JSON.stringify(data));
+          } else {
+            const data = searchName.filter((name) => name !== nickname);
+            data.unshift(nickname);
+            localStorage.setItem("latelySearch", JSON.stringify(data));
+          }
+
           setUpdateDate(response.data.updateDate);
           const { accountId, id } = response.data.user;
           const count = {
